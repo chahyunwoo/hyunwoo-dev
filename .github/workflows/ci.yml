@@ -5,8 +5,12 @@ on:
   # 그 경로로 들어온 변경은 어떤 게이트도 거치지 않는다. api-server와 동일하게 push도 받는다.
   push:
     branches: [main, dev]
+  # pull_request에는 base 제한을 두지 않는다. `branches: [main, dev]`로 막으면
+  # feature 브랜치를 base로 하는 PR이 CI를 **전혀 돌지 않는다** — 스택형 PR
+  # (기능 브랜치 위에 후속 작업을 쌓고 그 사이를 PR로 여는 방식)에서 검증 없이
+  # 코드가 올라간다. 실제로 이 저장소에서 그 상태를 만든 적이 있다(#127).
+  # 게이트는 base가 무엇이든 걸려야 한다.
   pull_request:
-    branches: [main, dev]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
