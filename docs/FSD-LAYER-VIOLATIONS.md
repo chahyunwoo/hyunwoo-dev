@@ -1,6 +1,26 @@
 # FSD 레이어 위반 기록
 
-작성일 2026-08-13. **재확인 2026-09-04 — 아래 4건 전부 아직 유효하다.**
+작성일 2026-08-13. **2026-09-04 기준 아래 4건은 전부 해소됐다** — 아래는 무엇이 왜 위반이었고 어디로 옮겼는지의 기록이다.
+
+| 원래 위치 | 옮긴 곳 | 이유 |
+|---|---|---|
+| `admin/shared/ui/referrer-pie-chart.tsx` | `admin/entities/analytics/ui/` | analytics 전용 차트였다 |
+| `admin/shared/config/referrer-colors.ts` | `admin/entities/analytics/config/` | analytics 카테고리 색상 매핑이었다 |
+| `portfolio/shared/hooks/use-skill-orbit-animation.ts` | `portfolio/widgets/skills/` | skills 위젯에서만 쓰는 훅이었다 |
+| `portfolio/widgets/pdf-banner/resume-pdf.tsx`의 raw fetch | `entities/portfolio`의 조회 함수 사용 | `getProfile`/`getWorks`/`getSkills`가 이미 있었고 `getEducation`만 없어 추가했다 |
+
+해소 확인 (전부 0이어야 한다):
+
+```bash
+grep -rn "from '@/entities" apps/admin/src/shared/       | wc -l   # 0
+grep -rn "from '@/entities" apps/portfolio/src/shared/   | wc -l   # 0
+grep -rn "@hyunwoo/shared/api" apps/portfolio/src/widgets/ | wc -l # 0
+grep -rn "from '@/entities" apps/blog/src/shared/        | wc -l   # 0
+```
+
+---
+
+## 원래 기록 (2026-08-13)
 
 재현 명령 (각 항목의 표에 적힌 파일:라인과 대조할 것):
 
@@ -13,8 +33,8 @@ grep -rn "from '@/entities" apps/portfolio/src/shared/
 grep -rn "@hyunwoo/shared/api" apps/portfolio/src/widgets/
 ```
 
-2026-09-04 실측 결과 — admin 2건, portfolio 2건(shared→entities 1, widgets 직접호출 1).
-문서 작성 이후 늘지도 줄지도 않았다.
+2026-09-04 최초 실측 — admin 2건, portfolio 2건(shared→entities 1, widgets 직접호출 1).
+문서 작성 시점부터 그때까지 늘지도 줄지도 않았고, 같은 날 전부 해소했다.
 
 이 모노레포(`apps/admin`, `apps/blog`, `apps/portfolio`)에서 발견된 FSD 레이어 위반 사례 채증. 지금 당장 고치지 않지만, 향후 리팩터링 시 참고하려고 기록한다. 기준은 두 가지:
 1. **단방향 의존**: 하위 레이어(`shared`, `entities`)는 상위 레이어(`features`, `widgets` 등)를 import해서는 안 된다.
