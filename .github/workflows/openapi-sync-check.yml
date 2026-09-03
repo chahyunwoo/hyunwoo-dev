@@ -1,0 +1,108 @@
+name: OpenAPI Spec Sync Check
+
+# api-server의 openapi.json이 이 저장소에 커밋된 사본과 갈라졌는지 검사한다.
+#
+# 왜 별도 워크플로인가:
+#   CI(ci.yml)의 drift 게이트는 "커밋된 스펙 ↔ 생성 타입"만 본다. 빌드 경로가 백엔드
+#   네트워크 상태에 묶이면 운영 배포가 백엔드 장애에 끌려가기 때문에 의도적으로 그렇게 뒀다.
+#   그 결과 "api-server의 스펙 ↔ 이 저장소의 스펙" 구간에는 게이트가 없어서, 백엔드가 DTO를
+#   바꿔 배포해도 이쪽 CI는 계속 초록이고 프론트 타입은 조용히 옛 API를 기술하게 된다.
+#   이 워크플로가 그 구간만 따로 본다 — 빌드를 막지 않고, 갈라지면 이슈로 알린다.
+
+on:
+  schedule:
+    # 매일 09:00 KST (00:00 UTC)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    name: Spec drift vs api-server
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Fetch upstream spec
+        id: fetch
+        run: |
+          set -uo pipefail
+          if ! pnpm api:sync 2> sync-error.txt; then
+            # api-server에 openapi.json이 아직 없거나(미머지) 일시적 네트워크 문제일 수 있다.
+            # 여기서 실패로 처리하면 매일 빨간 알림만 쌓이므로 건너뛴다.
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::업스트림 스펙을 받지 못해 검사를 건너뜁니다."
+            cat sync-error.txt
+            exit 0
+          fi
+          echo "skipped=false" >> "$GITHUB_OUTPUT"
+
+      - name: Compare
+        id: compare
+        if: steps.fetch.outputs.skipped == 'false'
+        run: |
+          set -uo pipefail
+          if git diff --quiet packages/shared/openapi.json; then
+            echo "drift=false" >> "$GITHUB_OUTPUT"
+            echo "스펙이 최신입니다."
+            exit 0
+          fi
+          echo "drift=true" >> "$GITHUB_OUTPUT"
+          {
+            echo 'summary<<SPEC_EOF'
+            git diff --stat packages/shared/openapi.json
+            echo
+            echo '변경된 오퍼레이션/스키마:'
+            git diff -U0 packages/shared/openapi.json \
+              | grep -E '^[-+] +"(\/api\/[^"]+|[A-Za-z]+Dto)"' \
+              | sort -u | head -40
+            echo 'SPEC_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open issue if drifted
+        if: steps.compare.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUMMARY: ${{ steps.compare.outputs.summary }}
+        run: |
+          set -euo pipefail
+          TITLE='openapi.json이 api-server와 갈라졌습니다'
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            echo "::notice::이미 열린 이슈 #$EXISTING 가 있어 새로 만들지 않습니다."
+            exit 0
+          fi
+          gh issue create --title "$TITLE" --body "$(cat <<EOF
+api-server의 \`openapi.json\`이 이 저장소에 커밋된 사본과 다릅니다.
+프론트 생성 타입이 실제 API를 기술하지 못하는 상태일 수 있습니다.
+
+\`\`\`
+$SUMMARY
+\`\`\`
+
+## 해야 할 일
+
+\`\`\`bash
+pnpm api:sync      # api-server의 스펙을 받아온다
+pnpm api:codegen   # 타입 재생성
+pnpm typecheck     # 여기서 깨지면 프론트 코드도 같이 고쳐야 한다
+\`\`\`
+
+변경분을 커밋하고 PR을 올리세요.
+
+<sub>이 이슈는 \`.github/workflows/openapi-sync-check.yml\`이 자동 생성했습니다.</sub>
+EOF
+)"

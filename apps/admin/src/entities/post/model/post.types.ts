@@ -14,7 +14,7 @@ export interface Post {
 }
 
 // PostListResponse는 제거됐다. GET /api/blog/posts 응답 타입은 api-server의 OpenAPI
-// 스펙에서 생성한다 — entities/post/api/post.options.ts의 ApiJson<'/api/blog/posts', 'get'> 참고.
+// 스펙에서 생성한다 — entities/post/api/post.options.ts의 ApiOkJson<...> 참고.
 // 나머지 수동 타입(Post, CreatePostBody, UpdatePostBody)도 같은 방식으로 대체할 대상이다.
 
 export interface PostListParams {
