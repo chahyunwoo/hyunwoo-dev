@@ -33,30 +33,28 @@ jobs:
           node-version: 20
 
       # pnpm install을 하지 않는다 — sync 스크립트는 node 내장 모듈만 쓴다.
+      # 스펙을 못 받으면 무조건 잡을 실패시킨다. 조용한 초록이야말로 이 워크플로가
+      # 막으려던 실패 형태다.
+      #
+      # 이전에는 404만 warning으로 건너뛰었는데 두 가지가 문제였다.
+      #  (1) 성공한 스케줄 실행은 알림이 없어서, warning은 로그를 직접 열지 않으면 아무도 안 본다.
+      #      "조용한 초록"이 "warning 붙은 초록"이 됐을 뿐이다.
+      #  (2) 판정을 `grep -q '404'`로 했는데 이게 stderr 전체(응답 본문 앞 200자, node 스택트레이스)를
+      #      훑어서, 전혀 다른 실패라도 그 안에 '404'가 있으면 초록이 됐다.
+      #
+      # 대신 실패 메시지가 원인을 말하게 한다. 백엔드 스펙이 아직 기준 브랜치에 없으면 빨간데,
+      # 그건 파이프라인이 아직 연결되지 않았다는 정확한 신호다.
       - name: Fetch upstream spec
-        id: fetch
         run: |
           set -uo pipefail
-          if node scripts/sync-openapi.mjs 2> sync-error.txt; then
-            echo "skipped=false" >> "$GITHUB_OUTPUT"
+          if node scripts/sync-openapi.mjs; then
             exit 0
           fi
-          # 404는 "아직 백엔드 main에 openapi.json이 없다"는 뜻이라 시간이 해결한다.
-          # 그 외(네트워크, 5xx, JSON 아님)는 진짜 문제이므로 잡을 실패시킨다.
-          # 조용한 초록이야말로 이 워크플로가 막으려던 실패 형태다.
-          if grep -q '404' sync-error.txt; then
-            echo "skipped=true" >> "$GITHUB_OUTPUT"
-            echo "::warning::업스트림에 openapi.json이 아직 없습니다(404). 검사를 건너뜁니다. 이 상태가 계속되면 경로/브랜치가 바뀐 것은 아닌지 확인하세요."
-            cat sync-error.txt
-            exit 0
-          fi
-          echo "::error::업스트림 스펙을 받지 못했습니다."
-          cat sync-error.txt
+          echo "::error::업스트림 스펙을 받지 못했습니다. api-server의 openapi.json이 기준 브랜치에 있는지, OPENAPI_SPEC 기본값(scripts/sync-openapi.mjs)이 맞는지 확인하세요."
           exit 1
 
       - name: Compare
         id: compare
-        if: steps.fetch.outputs.skipped == 'false'
         run: |
           set -uo pipefail
           if git diff --quiet packages/shared/openapi.json; then

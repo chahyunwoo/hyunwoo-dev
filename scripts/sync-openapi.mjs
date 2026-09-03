@@ -2,7 +2,7 @@
  * api-server가 커밋해 둔 openapi.json을 이 저장소로 가져온다.
  *
  * Usage:
- *   pnpm api:sync                                   # 기본값: api-server main 브랜치
+ *   pnpm api:sync                                   # 기본값: api-server dev 브랜치
  *   OPENAPI_SPEC=../api-server/openapi.json pnpm api:sync   # 로컬 체크아웃에서
  *   OPENAPI_SPEC=https://.../dev/openapi.json pnpm api:sync # 다른 브랜치에서
  *
@@ -21,7 +21,10 @@ import { fileURLToPath } from 'node:url'
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const OUTPUT_PATH = resolve(ROOT, 'packages/shared/openapi.json')
 
-const DEFAULT_SOURCE = 'https://raw.githubusercontent.com/chahyunwoo/chahyunwoo-api/main/openapi.json'
+// 기준은 api-server의 `dev`다. 두 저장소 모두 기본 브랜치가 `dev`이고 feature -> dev -> main으로
+// 같이 승격되므로, dev <-> dev 비교가 같은 시점끼리 맞대는 것이다.
+// `main`을 기준으로 삼으면 dev가 앞서 있는 동안 백엔드 변경이 검사에 안 잡힌다.
+const DEFAULT_SOURCE = 'https://raw.githubusercontent.com/chahyunwoo/chahyunwoo-api/dev/openapi.json'
 const source = process.env.OPENAPI_SPEC || DEFAULT_SOURCE
 
 async function read(src) {

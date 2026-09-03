@@ -21,11 +21,16 @@ const load = p => JSON.parse(readFileSync(p, 'utf8'))
 const oldDoc = load(oldPath)
 const newDoc = load(newPath)
 
+// path item에는 메서드 말고도 parameters/summary/$ref 같은 키가 올 수 있다.
+// 그걸 오퍼레이션으로 세면 이슈 본문에 `PARAMETERS /a` 같은 게 찍힌다.
+const HTTP_METHODS = new Set(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
+
 /** `${METHOD} ${path}` 집합 */
 function operations(doc) {
   const out = new Set()
   for (const [path, item] of Object.entries(doc.paths ?? {})) {
     for (const method of Object.keys(item ?? {})) {
+      if (!HTTP_METHODS.has(method.toLowerCase())) continue
       out.add(`${method.toUpperCase()} ${path}`)
     }
   }
