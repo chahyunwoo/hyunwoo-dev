@@ -11,6 +11,7 @@
     },
     "lint": {},
     "lint:ci": {},
+    "typecheck": {},
     "test": {
       "cache": false
     },

@@ -28,6 +28,23 @@ jobs:
       - name: Lint
         run: pnpm lint:ci
 
+      # 잡 이름에는 Type Check가 있었지만 실제 스텝이 없었다.
+      # apps/admin은 vite build가 타입체크를 하지 않아 지금까지 어떤 게이트도
+      # 타입 에러를 잡지 못했다.
+      - name: Type Check
+        run: pnpm typecheck
+
+      # 커밋된 생성 타입이 커밋된 openapi.json과 일치하는지 검사한다.
+      # 스펙 자체를 새로 받아오지는 않는다(네트워크/백엔드에 의존하지 않기 위해).
+      # 스펙 갱신은 사람이 `pnpm api:sync`로 의도적으로 한다.
+      - name: OpenAPI codegen drift check
+        run: |
+          pnpm api:codegen
+          if ! git diff --exit-code packages/shared/src/api/generated/api.types.ts; then
+            echo "::error::생성 타입이 openapi.json과 다릅니다. 로컬에서 'pnpm api:codegen' 후 커밋하세요."
+            exit 1
+          fi
+
       - name: Build
         run: pnpm build
 
