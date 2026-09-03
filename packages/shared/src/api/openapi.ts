@@ -26,10 +26,17 @@ declare const missingResponseSchema: unique symbol
  *
  * 이 스펙의 72개 오퍼레이션 중 성공 응답 스키마가 있는 건 아직 1개뿐이라, 나머지를 교체할 때
  * 백엔드에 @ApiOkResponse 붙이는 걸 빠뜨리기 쉽다. 대입 시점에 컴파일이 터지도록 고유 심볼로
- * 브랜딩하고, 에러 메시지에 무엇을 해야 하는지 적는다.
+ * 브랜딩한다.
+ *
+ * 알아둘 것 두 가지:
+ * - 진단 메시지에는 보통 `MissingResponseSchema<"/api/...">`까지만 나오고, 아래 안내 문자열은
+ *   에디터에서 타입을 펼쳐야(호버) 보인다. 라우트 이름이 보이는 것만으로 원인은 짚을 수 있다.
+ * - 만능은 아니다. 대상 타입이 `{}` / `object` / `unknown` / `Record<string, unknown>`처럼
+ *   아무 구조도 요구하지 않으면 그대로 대입된다. 필수 프로퍼티가 하나라도 있는 타입,
+ *   전부 옵셔널인 타입(weak type 검사), 배열, 프로퍼티 접근은 전부 막힌다.
  */
 export type MissingResponseSchema<P extends string> = {
-  [missingResponseSchema]: `'${P}' 라우트에 성공 응답 스키마가 없습니다. api-server 컨트롤러에 @ApiOkResponse({ type: XxxDto })를 붙이고, pnpm api:sync && pnpm api:codegen 을 돌리세요.`
+  [missingResponseSchema]: `'${P}' 라우트에 성공 응답 JSON 스키마가 없습니다. 본문이 있는 라우트라면 api-server 컨트롤러에 @ApiOkResponse({ type: XxxDto })를 붙이고 pnpm api:sync && pnpm api:codegen 을 돌리세요. 본문이 없는 라우트(204 등)라면 이 헬퍼를 쓰지 말고 반환 타입을 void로 두세요.`
 }
 
 type JsonBody<T> = T extends { content: { 'application/json': infer R } } ? R : never
