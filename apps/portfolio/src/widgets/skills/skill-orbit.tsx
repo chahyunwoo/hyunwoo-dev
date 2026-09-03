@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useMemo, useRef, useState } from 'react'
 import type { SkillGroup, SkillItem } from '@/entities/portfolio'
-import { useSkillOrbitAnimation } from '@/shared/hooks'
+import { useSkillOrbitAnimation } from './use-skill-orbit-animation'
 
 interface SkillOrbitProps {
   group: SkillGroup

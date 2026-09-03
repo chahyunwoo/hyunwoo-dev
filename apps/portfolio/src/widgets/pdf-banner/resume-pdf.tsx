@@ -245,21 +245,16 @@ function ResumeDocument({ data, locale }: { data: ResumeData; locale: string }) 
 }
 
 export async function generateResumePdf(locale = 'ko') {
-  const { apiFetch, ENDPOINTS } = await import('@hyunwoo/shared/api')
-  const { CACHE_TAGS } = await import('@hyunwoo/shared/config')
+  // entities의 조회 함수를 쓴다 — widgets가 서버 리소스를 직접 다루지 않는다.
+  // 동적 import는 유지한다. PDF 생성은 이 배너를 실제로 누를 때만 필요한 경로라
+  // 초기 번들에서 떼어내는 것이 목적이고, 그건 어느 계층을 거치든 그대로다.
+  const { getEducation, getProfile, getSkills, getWorks } = await import('@/entities/portfolio')
 
   const [profile, works, skills, education] = await Promise.all([
-    apiFetch<{ name: string; jobTitle: string; location: string; socialLinks: { name: string; href: string }[] }>(
-      `${ENDPOINTS.portfolio.profile}?locale=${locale}`,
-      { tags: [CACHE_TAGS.PORTFOLIO_PROFILE] },
-    ),
-    apiFetch<ResumeData['works']>(`${ENDPOINTS.portfolio.works}?locale=${locale}`, {
-      tags: [CACHE_TAGS.PORTFOLIO_WORKS],
-    }),
-    apiFetch<ResumeData['skills']>(ENDPOINTS.portfolio.skills, { tags: [CACHE_TAGS.PORTFOLIO_SKILLS] }),
-    apiFetch<ResumeData['education']>(`${ENDPOINTS.portfolio.education}?locale=${locale}`, {
-      tags: [CACHE_TAGS.PORTFOLIO_EDUCATION],
-    }),
+    getProfile(locale),
+    getWorks(locale),
+    getSkills(),
+    getEducation(locale),
   ])
 
   if (!profile) return
