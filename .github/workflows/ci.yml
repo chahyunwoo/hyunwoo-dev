@@ -1,6 +1,10 @@
 name: CI
 
 on:
+  # dev는 브랜치 보호가 걸려 있지 않아 직접 푸시가 가능하다. pull_request 트리거만 두면
+  # 그 경로로 들어온 변경은 어떤 게이트도 거치지 않는다. api-server와 동일하게 push도 받는다.
+  push:
+    branches: [main, dev]
   pull_request:
     branches: [main, dev]
 
@@ -25,8 +29,44 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # 워크플로 YAML이 깨지면 그 워크플로는 조용히 로드되지 않는다. schedule/workflow_dispatch만
+      # 있는 워크플로는 PR에서 돌지 않아 더더욱 안 보인다 — 실제로 openapi-sync-check.yml을
+      # 그렇게 깨뜨린 적이 있고, 리뷰가 아니었으면 "게이트를 넣었다"는 착각만 남을 뻔했다.
+      # 전체 검증(actionlint)은 아니고 파싱만 본다. 그것만으로 위 사고는 막힌다.
+      - name: Validate workflow YAML
+        run: |
+          python3 - <<'PY'
+          import glob, sys, yaml
+          failed = []
+          for f in sorted(glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml')):
+              try:
+                  yaml.safe_load(open(f))
+              except Exception as e:
+                  failed.append(f"{f}: {type(e).__name__}: {str(e).splitlines()[0]}")
+          for line in failed:
+              print(f"::error::{line}")
+          sys.exit(1 if failed else 0)
+          PY
+
       - name: Lint
         run: pnpm lint:ci
+
+      # 잡 이름에는 Type Check가 있었지만 실제 스텝이 없었다.
+      # apps/admin은 vite build가 타입체크를 하지 않아 지금까지 어떤 게이트도
+      # 타입 에러를 잡지 못했다.
+      - name: Type Check
+        run: pnpm typecheck
+
+      # 커밋된 생성 타입이 커밋된 openapi.json과 일치하는지 검사한다.
+      # 스펙 자체를 새로 받아오지는 않는다(네트워크/백엔드에 의존하지 않기 위해).
+      # 스펙 갱신은 사람이 `pnpm api:sync`로 의도적으로 한다.
+      - name: OpenAPI codegen drift check
+        run: |
+          pnpm api:codegen
+          if ! git diff --exit-code packages/shared/src/api/generated/api.types.ts; then
+            echo "::error::생성 타입이 openapi.json과 다릅니다. 로컬에서 'pnpm api:codegen' 후 커밋하세요."
+            exit 1
+          fi
 
       - name: Build
         run: pnpm build
