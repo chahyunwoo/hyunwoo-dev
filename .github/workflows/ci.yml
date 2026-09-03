@@ -29,6 +29,25 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # 워크플로 YAML이 깨지면 그 워크플로는 조용히 로드되지 않는다. schedule/workflow_dispatch만
+      # 있는 워크플로는 PR에서 돌지 않아 더더욱 안 보인다 — 실제로 openapi-sync-check.yml을
+      # 그렇게 깨뜨린 적이 있고, 리뷰가 아니었으면 "게이트를 넣었다"는 착각만 남을 뻔했다.
+      # 전체 검증(actionlint)은 아니고 파싱만 본다. 그것만으로 위 사고는 막힌다.
+      - name: Validate workflow YAML
+        run: |
+          python3 - <<'PY'
+          import glob, sys, yaml
+          failed = []
+          for f in sorted(glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml')):
+              try:
+                  yaml.safe_load(open(f))
+              except Exception as e:
+                  failed.append(f"{f}: {type(e).__name__}: {str(e).splitlines()[0]}")
+          for line in failed:
+              print(f"::error::{line}")
+          sys.exit(1 if failed else 0)
+          PY
+
       - name: Lint
         run: pnpm lint:ci
 

@@ -11,7 +11,7 @@ name: OpenAPI Spec Sync Check
 
 on:
   schedule:
-    # 매일 09:00 KST (00:00 UTC)
+    # 매일 00:00 UTC = 09:00 KST
     - cron: '0 0 * * *'
   workflow_dispatch:
 
@@ -23,32 +23,36 @@ jobs:
   check:
     name: Spec drift vs api-server
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v5
-
       - uses: actions/setup-node@v6
         with:
           node-version: 20
-          cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
-
+      # pnpm install을 하지 않는다 — sync 스크립트는 node 내장 모듈만 쓴다.
       - name: Fetch upstream spec
         id: fetch
         run: |
           set -uo pipefail
-          if ! pnpm api:sync 2> sync-error.txt; then
-            # api-server에 openapi.json이 아직 없거나(미머지) 일시적 네트워크 문제일 수 있다.
-            # 여기서 실패로 처리하면 매일 빨간 알림만 쌓이므로 건너뛴다.
+          if node scripts/sync-openapi.mjs 2> sync-error.txt; then
+            echo "skipped=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # 404는 "아직 백엔드 main에 openapi.json이 없다"는 뜻이라 시간이 해결한다.
+          # 그 외(네트워크, 5xx, JSON 아님)는 진짜 문제이므로 잡을 실패시킨다.
+          # 조용한 초록이야말로 이 워크플로가 막으려던 실패 형태다.
+          if grep -q '404' sync-error.txt; then
             echo "skipped=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::업스트림 스펙을 받지 못해 검사를 건너뜁니다."
+            echo "::warning::업스트림에 openapi.json이 아직 없습니다(404). 검사를 건너뜁니다. 이 상태가 계속되면 경로/브랜치가 바뀐 것은 아닌지 확인하세요."
             cat sync-error.txt
             exit 0
           fi
-          echo "skipped=false" >> "$GITHUB_OUTPUT"
+          echo "::error::업스트림 스펙을 받지 못했습니다."
+          cat sync-error.txt
+          exit 1
 
       - name: Compare
         id: compare
@@ -61,48 +65,29 @@ jobs:
             exit 0
           fi
           echo "drift=true" >> "$GITHUB_OUTPUT"
-          {
-            echo 'summary<<SPEC_EOF'
-            git diff --stat packages/shared/openapi.json
-            echo
-            echo '변경된 오퍼레이션/스키마:'
-            git diff -U0 packages/shared/openapi.json \
-              | grep -E '^[-+] +"(\/api\/[^"]+|[A-Za-z]+Dto)"' \
-              | sort -u | head -40
-            echo 'SPEC_EOF'
-          } >> "$GITHUB_OUTPUT"
+          # git diff 텍스트를 grep으로 훑으면 "기존 DTO에 필드 하나 추가" 같은 가장 흔한
+          # 변경에서 감싸는 스키마 이름이 컨텍스트라 잡히지 않는다. 두 JSON의 키 집합을 직접 비교한다.
+          # 이슈 본문 전체를 스크립트가 만든다 — 셸에서 마크다운을 조립하면 백틱 인용과
+          # heredoc 들여쓰기가 문제가 된다.
+          git show HEAD:packages/shared/openapi.json > /tmp/spec-old.json
+          node .github/scripts/summarize-spec-diff.mjs /tmp/spec-old.json packages/shared/openapi.json > /tmp/issue-body.md
+          cat /tmp/issue-body.md
 
       - name: Open issue if drifted
         if: steps.compare.outputs.drift == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          SUMMARY: ${{ steps.compare.outputs.summary }}
         run: |
           set -euo pipefail
-          TITLE='openapi.json이 api-server와 갈라졌습니다'
-          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          LABEL=openapi-drift
+          # 제목 문자열 검색은 부분 매칭이라 결정적이지 않다. 라벨로 중복을 판정한다.
+          gh label create "$LABEL" --color D93F0B --description "api-server 스펙과 갈라짐" --force
+          EXISTING=$(gh issue list --state open --label "$LABEL" --json number --jq '.[0].number // empty')
           if [ -n "$EXISTING" ]; then
             echo "::notice::이미 열린 이슈 #$EXISTING 가 있어 새로 만들지 않습니다."
             exit 0
           fi
-          gh issue create --title "$TITLE" --body "$(cat <<EOF
-api-server의 \`openapi.json\`이 이 저장소에 커밋된 사본과 다릅니다.
-프론트 생성 타입이 실제 API를 기술하지 못하는 상태일 수 있습니다.
-
-\`\`\`
-$SUMMARY
-\`\`\`
-
-## 해야 할 일
-
-\`\`\`bash
-pnpm api:sync      # api-server의 스펙을 받아온다
-pnpm api:codegen   # 타입 재생성
-pnpm typecheck     # 여기서 깨지면 프론트 코드도 같이 고쳐야 한다
-\`\`\`
-
-변경분을 커밋하고 PR을 올리세요.
-
-<sub>이 이슈는 \`.github/workflows/openapi-sync-check.yml\`이 자동 생성했습니다.</sub>
-EOF
-)"
+          gh issue create \
+            --title "openapi.json이 api-server와 갈라졌습니다" \
+            --label "$LABEL" \
+            --body-file /tmp/issue-body.md
