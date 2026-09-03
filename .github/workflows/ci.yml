@@ -1,6 +1,10 @@
 name: CI
 
 on:
+  # dev는 브랜치 보호가 걸려 있지 않아 직접 푸시가 가능하다. pull_request 트리거만 두면
+  # 그 경로로 들어온 변경은 어떤 게이트도 거치지 않는다. api-server와 동일하게 push도 받는다.
+  push:
+    branches: [main, dev]
   pull_request:
     branches: [main, dev]
 
