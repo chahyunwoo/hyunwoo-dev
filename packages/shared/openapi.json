@@ -7,7 +7,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -50,7 +57,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -89,7 +103,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PopularPostDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -128,7 +152,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisitorStatsDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -167,7 +198,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VisitorTimelineDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -206,7 +247,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReferrerStatsDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -228,7 +276,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemStatusDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -259,7 +314,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminLogDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -290,6 +355,23 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "2FA가 꺼져 있으면 쿠키를 설정하고 message만, 켜져 있으면 twoFactorToken을 돌려준다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/MessageResponseDto"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TwoFactorRequiredDto"
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -373,6 +455,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -446,6 +538,16 @@
         "operationId": "AuthController_getTwoFactorStatus",
         "parameters": [],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TwoFactorStatusDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -496,6 +598,16 @@
         "operationId": "AuthController_setupTwoFactor",
         "parameters": [],
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TwoFactorSetupDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -556,6 +668,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TwoFactorToggleDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -647,6 +769,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TwoFactorToggleDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -728,6 +860,16 @@
         "operationId": "AuthController_refresh",
         "parameters": [],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -807,7 +949,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionExtendDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -828,8 +977,15 @@
         "operationId": "AuthController_createPreviewToken",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": ""
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewTokenDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -860,7 +1016,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewValidDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -902,6 +1065,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostSearchResponseDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1019,6 +1192,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostDetailDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1143,7 +1326,17 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostSummaryDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1162,7 +1355,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryWithTagsDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1189,7 +1392,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1230,7 +1440,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1292,7 +1509,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagListResponseDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1319,6 +1543,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostDetailDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1383,6 +1617,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostDetailDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1471,6 +1715,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1569,6 +1816,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostDetailDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1656,6 +1913,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RelatedPostsResponseDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1703,6 +1970,16 @@
         "operationId": "BlogController_uploadImage",
         "parameters": [],
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadImageResponseDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1785,7 +2062,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocaleDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1811,6 +2098,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocaleDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1933,6 +2230,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2019,6 +2326,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileWithTranslationsDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -2069,6 +2386,16 @@
         "operationId": "PortfolioController_getProfileWithTranslations",
         "parameters": [],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileWithTranslationsDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -2126,6 +2453,19 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExperienceDto"
+                  }
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2181,6 +2521,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperienceRecordDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2280,6 +2630,19 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectDto"
+                  }
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2335,6 +2698,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectRecordDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2417,7 +2790,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SkillGroupDto"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2443,6 +2826,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillRecordDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2545,6 +2938,19 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkDto"
+                  }
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2600,6 +3006,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRecordDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -2690,6 +3106,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkDetailDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -2754,6 +3180,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRecordDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -2842,6 +3278,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -2932,6 +3371,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperienceRecordDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -2996,6 +3445,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperienceRecordDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3084,6 +3543,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3174,6 +3636,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectRecordDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -3238,6 +3710,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectRecordDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3326,6 +3808,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3416,6 +3901,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EducationRecordDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -3480,6 +3975,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EducationRecordDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3568,6 +4073,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3659,6 +4167,19 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EducationDto"
+                  }
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -3714,6 +4235,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EducationRecordDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -3804,6 +4335,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -3885,6 +4419,16 @@
         "operationId": "PortfolioController_uploadProfileImage",
         "parameters": [],
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadUrlResponseDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -3966,6 +4510,16 @@
         "operationId": "PortfolioController_uploadProfileIcon",
         "parameters": [],
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadUrlResponseDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -4066,6 +4620,16 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillRecordDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -4154,6 +4718,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -4245,6 +4812,16 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactResultDto"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -4301,6 +4878,19 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContactMessageDto"
+                  }
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -4360,6 +4950,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactMessageDto"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -4450,6 +5050,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "No Content"
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -4554,6 +5157,23 @@
       }
     },
     "schemas": {
+      "HealthResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ok"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "status",
+          "timestamp"
+        ]
+      },
       "TrackPageViewDto": {
         "type": "object",
         "properties": {
@@ -4577,6 +5197,489 @@
         "required": [
           "path",
           "appName"
+        ]
+      },
+      "PostStatsDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 40
+          },
+          "published": {
+            "type": "number",
+            "example": 38
+          },
+          "draft": {
+            "type": "number",
+            "example": 2
+          }
+        },
+        "required": [
+          "total",
+          "published",
+          "draft"
+        ]
+      },
+      "CategoryStatDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "count": {
+            "type": "number",
+            "example": 8
+          }
+        },
+        "required": [
+          "category",
+          "count"
+        ]
+      },
+      "DashboardPostDto": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "title": {
+            "type": "string",
+            "example": "글 제목"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "example": "Frontend"
+          },
+          "viewCount": {
+            "type": "number",
+            "example": 128
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "slug",
+          "title",
+          "category",
+          "viewCount",
+          "createdAt"
+        ]
+      },
+      "RecentlyUpdatedPostDto": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "title": {
+            "type": "string",
+            "example": "글 제목"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "slug",
+          "title",
+          "updatedAt"
+        ]
+      },
+      "DashboardDto": {
+        "type": "object",
+        "properties": {
+          "postStats": {
+            "$ref": "#/components/schemas/PostStatsDto"
+          },
+          "categoryStats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryStatDto"
+            }
+          },
+          "recentPosts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DashboardPostDto"
+            }
+          },
+          "recentlyUpdated": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecentlyUpdatedPostDto"
+            }
+          }
+        },
+        "required": [
+          "postStats",
+          "categoryStats",
+          "recentPosts",
+          "recentlyUpdated"
+        ]
+      },
+      "PopularPostDto": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "title": {
+            "type": "string",
+            "example": "글 제목"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "example": "Frontend"
+          },
+          "viewCount": {
+            "type": "number",
+            "example": 128
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "slug",
+          "title",
+          "category",
+          "viewCount",
+          "createdAt"
+        ]
+      },
+      "DailyViewDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "2026-09-04",
+            "description": "YYYY-MM-DD"
+          },
+          "count": {
+            "type": "number",
+            "example": 42
+          }
+        },
+        "required": [
+          "date",
+          "count"
+        ]
+      },
+      "VisitorStatsDto": {
+        "type": "object",
+        "properties": {
+          "totalViews": {
+            "type": "number",
+            "example": 991
+          },
+          "uniqueVisitors": {
+            "type": "number",
+            "example": 210,
+            "description": "IP 기준 고유 방문자"
+          },
+          "daily": {
+            "description": "날짜 오름차순",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DailyViewDto"
+            }
+          }
+        },
+        "required": [
+          "totalViews",
+          "uniqueVisitors",
+          "daily"
+        ]
+      },
+      "VisitDto": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "example": "/blog/abc123",
+            "description": "URL 디코딩된 경로"
+          },
+          "referrer": {
+            "type": "string",
+            "nullable": true,
+            "example": "google.com",
+            "description": "도메인만 남긴다"
+          },
+          "visitedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "path",
+          "referrer",
+          "visitedAt"
+        ]
+      },
+      "VisitorTimelineDto": {
+        "type": "object",
+        "properties": {
+          "ipAddress": {
+            "type": "string",
+            "example": "123.45.*.*",
+            "description": "마스킹된 IP"
+          },
+          "city": {
+            "type": "string",
+            "nullable": true,
+            "example": "Seoul"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true,
+            "example": "KR"
+          },
+          "isBot": {
+            "type": "boolean",
+            "example": false
+          },
+          "totalViews": {
+            "type": "number",
+            "example": 5
+          },
+          "visits": {
+            "description": "최근 방문 우선",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VisitDto"
+            }
+          }
+        },
+        "required": [
+          "ipAddress",
+          "city",
+          "country",
+          "isBot",
+          "totalViews",
+          "visits"
+        ]
+      },
+      "ReferrerSummaryDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 100
+          },
+          "direct": {
+            "type": "number",
+            "example": 40,
+            "description": "리퍼러 없음"
+          },
+          "search": {
+            "type": "number",
+            "example": 30
+          },
+          "social": {
+            "type": "number",
+            "example": 20
+          },
+          "other": {
+            "type": "number",
+            "example": 10
+          }
+        },
+        "required": [
+          "total",
+          "direct",
+          "search",
+          "social",
+          "other"
+        ]
+      },
+      "ReferrerItemDto": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "example": "google.com"
+          },
+          "category": {
+            "type": "string",
+            "example": "search",
+            "description": "direct | search | social | other"
+          },
+          "count": {
+            "type": "number",
+            "example": 30
+          },
+          "percentage": {
+            "type": "number",
+            "example": 30,
+            "description": "전체 대비 백분율(정수)"
+          }
+        },
+        "required": [
+          "source",
+          "category",
+          "count",
+          "percentage"
+        ]
+      },
+      "ReferrerStatsDto": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/ReferrerSummaryDto"
+          },
+          "referrers": {
+            "description": "count 내림차순",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReferrerItemDto"
+            }
+          }
+        },
+        "required": [
+          "summary",
+          "referrers"
+        ]
+      },
+      "MemoryUsageDto": {
+        "type": "object",
+        "properties": {
+          "heapUsed": {
+            "type": "number",
+            "example": 52428800,
+            "description": "바이트"
+          },
+          "heapTotal": {
+            "type": "number",
+            "example": 83886080
+          },
+          "rss": {
+            "type": "number",
+            "example": 125829120,
+            "description": "Resident Set Size"
+          }
+        },
+        "required": [
+          "heapUsed",
+          "heapTotal",
+          "rss"
+        ]
+      },
+      "SystemStatusDto": {
+        "type": "object",
+        "properties": {
+          "uptime": {
+            "type": "number",
+            "example": 86400000,
+            "description": "프로세스 기동 후 경과 밀리초"
+          },
+          "uptimeFormatted": {
+            "type": "string",
+            "example": "1d 0h 0m"
+          },
+          "database": {
+            "type": "string",
+            "example": "connected",
+            "description": "connected | disconnected"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/MemoryUsageDto"
+          }
+        },
+        "required": [
+          "uptime",
+          "uptimeFormatted",
+          "database",
+          "memory"
+        ]
+      },
+      "AdminLogDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "action": {
+            "type": "string",
+            "example": "create",
+            "description": "create | update | delete 등"
+          },
+          "entity": {
+            "type": "string",
+            "example": "post"
+          },
+          "entityId": {
+            "type": "string",
+            "nullable": true,
+            "example": "abc123"
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true,
+            "description": "글 제목 등 부가 정보"
+          },
+          "username": {
+            "type": "string",
+            "example": "admin"
+          },
+          "ipAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "entity",
+          "entityId",
+          "detail",
+          "username",
+          "ipAddress",
+          "createdAt"
+        ]
+      },
+      "MessageResponseDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Login successful"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "TwoFactorRequiredDto": {
+        "type": "object",
+        "properties": {
+          "requiresTwoFactor": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorToken": {
+            "type": "string",
+            "description": "5분간 유효. 2fa/verify에 그대로 넘긴다."
+          }
+        },
+        "required": [
+          "requiresTwoFactor",
+          "twoFactorToken"
         ]
       },
       "LoginDto": {
@@ -4613,6 +5716,40 @@
           "code"
         ]
       },
+      "TwoFactorStatusDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "TwoFactorSetupDto": {
+        "type": "object",
+        "properties": {
+          "qrCode": {
+            "type": "string",
+            "description": "data URI 형태의 QR 이미지 (신규 설정 시)"
+          },
+          "uri": {
+            "type": "string",
+            "description": "otpauth:// URI (신규 설정 시)"
+          },
+          "configured": {
+            "type": "boolean",
+            "example": true,
+            "description": "이미 설정돼 있을 때만"
+          },
+          "message": {
+            "type": "string",
+            "example": "2FA is already configured"
+          }
+        }
+      },
       "Enable2faDto": {
         "type": "object",
         "properties": {
@@ -4623,6 +5760,66 @@
         },
         "required": [
           "code"
+        ]
+      },
+      "TwoFactorToggleDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "2FA is not enabled",
+            "description": "이미 그 상태일 때만"
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "SessionExtendDto": {
+        "type": "object",
+        "properties": {
+          "timeout": {
+            "type": "number",
+            "example": 3600000,
+            "description": "밀리초"
+          }
+        },
+        "required": [
+          "timeout"
+        ]
+      },
+      "PreviewTokenDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "미리보기 URL의 쿼리로 붙인다"
+          },
+          "expiresIn": {
+            "type": "number",
+            "example": 1800,
+            "description": "초 단위"
+          }
+        },
+        "required": [
+          "token",
+          "expiresIn"
+        ]
+      },
+      "PreviewValidDto": {
+        "type": "object",
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "valid"
         ]
       },
       "PostTagDto": {
@@ -4726,6 +5923,47 @@
           "tags"
         ]
       },
+      "PostSearchResponseDto": {
+        "type": "object",
+        "properties": {
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostSummaryDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "example": 3,
+            "description": "검색 조건에 맞는 전체 건수"
+          },
+          "query": {
+            "type": "string",
+            "example": "react",
+            "description": "검색어(요청의 q를 그대로 되돌려준다)"
+          },
+          "grouped": {
+            "type": "object",
+            "description": "카테고리명을 키로 묶은 결과. 카테고리가 없는 글은 \"Uncategorized\"로 묶인다.",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PostSummaryDto"
+              }
+            },
+            "example": {
+              "Frontend": [],
+              "Backend": []
+            }
+          }
+        },
+        "required": [
+          "posts",
+          "total",
+          "query",
+          "grouped"
+        ]
+      },
       "PostListResponseDto": {
         "type": "object",
         "properties": {
@@ -4761,6 +5999,67 @@
           "totalPages"
         ]
       },
+      "TagCountDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "React"
+          },
+          "slug": {
+            "type": "string",
+            "example": "react"
+          },
+          "count": {
+            "type": "number",
+            "example": 12,
+            "description": "이 카테고리 안에서 이 태그가 붙은 글 수"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "count"
+        ]
+      },
+      "CategoryWithTagsDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "icon": {
+            "type": "string",
+            "example": "Monitor",
+            "description": "lucide 아이콘 이름"
+          },
+          "count": {
+            "type": "number",
+            "example": 8,
+            "description": "이 카테고리의 발행된 글 수"
+          },
+          "recent": {
+            "type": "boolean",
+            "example": true,
+            "description": "최근 기간 내 새 글이 있는지"
+          },
+          "tags": {
+            "description": "count 내림차순",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagCountDto"
+            }
+          }
+        },
+        "required": [
+          "category",
+          "icon",
+          "count",
+          "recent",
+          "tags"
+        ]
+      },
       "CreateCategoryDto": {
         "type": "object",
         "properties": {
@@ -4780,6 +6079,163 @@
         },
         "required": [
           "name"
+        ]
+      },
+      "CategoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "icon": {
+            "type": "string",
+            "example": "Monitor",
+            "description": "lucide 아이콘 이름"
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "icon",
+          "sortOrder"
+        ]
+      },
+      "TagListResponseDto": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "description": "글 수 내림차순. 참조가 0인 태그는 제외된다.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagCountDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "example": 75,
+            "description": "실제로 글에 붙어 있는 태그의 총 개수"
+          }
+        },
+        "required": [
+          "tags",
+          "total"
+        ]
+      },
+      "PostDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Next.js 15 App Router 완전 정복"
+          },
+          "slug": {
+            "type": "string",
+            "example": "nextjs-15-app-router"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "미입력 시 content에서 자동 추출"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://assets.chahyunwoo.dev/thumbnail/example.png"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "example": "Frontend"
+          },
+          "published": {
+            "type": "boolean",
+            "example": true
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "readingTime": {
+            "type": "number",
+            "example": 5,
+            "description": "분 단위 예상 읽기 시간"
+          },
+          "viewCount": {
+            "type": "number",
+            "example": 128
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostTagDto"
+            }
+          },
+          "content": {
+            "type": "string",
+            "description": "MDX 원문",
+            "example": "# 제목\n\n본문입니다."
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "description",
+          "thumbnailUrl",
+          "category",
+          "published",
+          "publishedAt",
+          "readingTime",
+          "viewCount",
+          "createdAt",
+          "updatedAt",
+          "tags",
+          "content"
+        ]
+      },
+      "RelatedPostsResponseDto": {
+        "type": "object",
+        "properties": {
+          "related": {
+            "description": "태그가 겹치는 글 (겹친 수 내림차순)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostSummaryDto"
+            }
+          },
+          "recommended": {
+            "description": "related가 목표 수에 못 미칠 때 최신 글로 채운 분",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostSummaryDto"
+            }
+          }
+        },
+        "required": [
+          "related",
+          "recommended"
         ]
       },
       "CreatePostDto": {
@@ -4874,6 +6330,790 @@
           }
         }
       },
+      "UploadImageResponseDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "https://assets.chahyunwoo.dev/blog/temp/abc123.png"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "LocaleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "code": {
+            "type": "string",
+            "example": "ko"
+          },
+          "label": {
+            "type": "string",
+            "example": "한국어"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "label"
+        ]
+      },
+      "SocialLinkDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "GitHub"
+          },
+          "href": {
+            "type": "string",
+            "example": "https://github.com/chahyunwoo"
+          }
+        },
+        "required": [
+          "name",
+          "href"
+        ]
+      },
+      "ProfileDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "차현우"
+          },
+          "location": {
+            "type": "string",
+            "example": "서울, 대한민국"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "iconUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "socialLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SocialLinkDto"
+            }
+          },
+          "jobTitle": {
+            "type": "string",
+            "example": "Full-Stack Developer",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "introduction": {
+            "description": "문단 배열. 번역이 없으면 빈 배열",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "location",
+          "imageUrl",
+          "iconUrl",
+          "socialLinks",
+          "jobTitle",
+          "introduction"
+        ]
+      },
+      "ProfileTranslationDto": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string",
+            "example": "ko"
+          },
+          "jobTitle": {
+            "type": "string",
+            "example": "Full-Stack Developer"
+          },
+          "introduction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "locale",
+          "jobTitle",
+          "introduction"
+        ]
+      },
+      "ProfileWithTranslationsDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "차현우"
+          },
+          "location": {
+            "type": "string",
+            "example": "서울, 대한민국"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "iconUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "socialLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SocialLinkDto"
+            }
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "location",
+          "imageUrl",
+          "iconUrl",
+          "socialLinks",
+          "translations"
+        ]
+      },
+      "ExperienceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          },
+          "title": {
+            "type": "string",
+            "example": "회사명",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "role": {
+            "type": "string",
+            "example": "Backend Developer",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "responsibilities": {
+            "description": "번역이 없으면 빈 배열",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "startDate",
+          "endDate",
+          "isCurrent",
+          "title",
+          "role",
+          "responsibilities"
+        ]
+      },
+      "ProjectDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "demoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "repoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "featured": {
+            "type": "boolean",
+            "example": false
+          },
+          "title": {
+            "type": "string",
+            "example": "프로젝트명",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "description": {
+            "type": "string",
+            "example": "설명",
+            "description": "번역이 없으면 빈 문자열"
+          }
+        },
+        "required": [
+          "id",
+          "demoUrl",
+          "repoUrl",
+          "techStack",
+          "featured",
+          "title",
+          "description"
+        ]
+      },
+      "SkillItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "TypeScript"
+          },
+          "proficiency": {
+            "type": "number",
+            "example": 90,
+            "description": "0-100"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "proficiency",
+          "description"
+        ]
+      },
+      "SkillGroupDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "items": {
+            "description": "sortOrder 오름차순",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillItemDto"
+            }
+          }
+        },
+        "required": [
+          "category",
+          "items"
+        ]
+      },
+      "WorkDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "type": {
+            "type": "string",
+            "example": "company",
+            "description": "company | side | freelance 등"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "demoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "repoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "featured": {
+            "type": "boolean",
+            "example": false
+          },
+          "gradientColors": {
+            "description": "title과 featured로 서버에서 생성한 그라디언트 색. DB 값이 아니다.",
+            "example": [
+              "#4F46E5",
+              "#7C3AED"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "title": {
+            "type": "string",
+            "example": "프로젝트명",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true,
+            "description": "번역이 없으면 null"
+          },
+          "summary": {
+            "type": "string",
+            "example": "한 줄 요약",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "content": {
+            "type": "string",
+            "description": "MDX 본문. 번역이 없으면 빈 문자열"
+          },
+          "highlights": {
+            "description": "번역이 없으면 빈 배열",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "startDate",
+          "endDate",
+          "isCurrent",
+          "techStack",
+          "demoUrl",
+          "repoUrl",
+          "featured",
+          "gradientColors",
+          "title",
+          "role",
+          "summary",
+          "content",
+          "highlights"
+        ]
+      },
+      "WorkTranslationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "workId": {
+            "type": "number",
+            "example": 1
+          },
+          "locale": {
+            "type": "string",
+            "example": "ko"
+          },
+          "title": {
+            "type": "string",
+            "example": "프로젝트명"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string",
+            "example": "한 줄 요약"
+          },
+          "content": {
+            "type": "string",
+            "description": "MDX 본문"
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "workId",
+          "locale",
+          "title",
+          "role",
+          "summary",
+          "content",
+          "highlights"
+        ]
+      },
+      "WorkDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "type": {
+            "type": "string",
+            "example": "company"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "demoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "repoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "featured": {
+            "type": "boolean",
+            "example": false
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkTranslationDto"
+            }
+          },
+          "gradientColors": {
+            "description": "title과 featured로 서버에서 생성한 그라디언트 색. DB 값이 아니다.",
+            "example": [
+              "#4F46E5",
+              "#7C3AED"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "startDate",
+          "endDate",
+          "isCurrent",
+          "techStack",
+          "demoUrl",
+          "repoUrl",
+          "featured",
+          "sortOrder",
+          "translations",
+          "gradientColors"
+        ]
+      },
+      "ExperienceTranslationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "experienceId": {
+            "type": "number",
+            "example": 1
+          },
+          "locale": {
+            "type": "string",
+            "example": "ko"
+          },
+          "title": {
+            "type": "string",
+            "example": "회사명"
+          },
+          "role": {
+            "type": "string",
+            "example": "Backend Developer"
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "experienceId",
+          "locale",
+          "title",
+          "role",
+          "responsibilities"
+        ]
+      },
+      "ExperienceRecordDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExperienceTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "startDate",
+          "endDate",
+          "isCurrent",
+          "sortOrder",
+          "translations"
+        ]
+      },
+      "ProjectTranslationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "projectId": {
+            "type": "number",
+            "example": 1
+          },
+          "locale": {
+            "type": "string",
+            "example": "ko"
+          },
+          "title": {
+            "type": "string",
+            "example": "프로젝트명"
+          },
+          "description": {
+            "type": "string",
+            "example": "설명"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "locale",
+          "title",
+          "description"
+        ]
+      },
+      "ProjectRecordDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "demoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "repoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "featured": {
+            "type": "boolean",
+            "example": false
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "demoUrl",
+          "repoUrl",
+          "techStack",
+          "featured",
+          "sortOrder",
+          "translations"
+        ]
+      },
+      "EducationTranslationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "educationId": {
+            "type": "number",
+            "example": 1
+          },
+          "locale": {
+            "type": "string",
+            "example": "ko"
+          },
+          "institution": {
+            "type": "string",
+            "example": "○○대학교"
+          },
+          "degree": {
+            "type": "string",
+            "example": "컴퓨터공학 학사"
+          }
+        },
+        "required": [
+          "id",
+          "educationId",
+          "locale",
+          "institution",
+          "degree"
+        ]
+      },
+      "EducationRecordDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "period": {
+            "type": "string",
+            "example": "2018.03 - 2022.02"
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EducationTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "period",
+          "sortOrder",
+          "translations"
+        ]
+      },
+      "EducationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "period": {
+            "type": "string",
+            "example": "2018.03 - 2022.02"
+          },
+          "institution": {
+            "type": "string",
+            "example": "○○대학교",
+            "description": "번역이 없으면 빈 문자열"
+          },
+          "degree": {
+            "type": "string",
+            "example": "컴퓨터공학 학사",
+            "description": "번역이 없으면 빈 문자열"
+          }
+        },
+        "required": [
+          "id",
+          "period",
+          "institution",
+          "degree"
+        ]
+      },
       "CreateLocaleDto": {
         "type": "object",
         "properties": {
@@ -4889,46 +7129,6 @@
         "required": [
           "code",
           "label"
-        ]
-      },
-      "SocialLinkDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "href": {
-            "type": "string"
-          },
-          "icon": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "href"
-        ]
-      },
-      "ProfileTranslationDto": {
-        "type": "object",
-        "properties": {
-          "locale": {
-            "type": "string"
-          },
-          "jobTitle": {
-            "type": "string"
-          },
-          "introduction": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "locale",
-          "jobTitle",
-          "introduction"
         ]
       },
       "UpdateProfileDto": {
@@ -4960,30 +7160,16 @@
           }
         }
       },
-      "ExperienceTranslationDto": {
+      "UploadUrlResponseDto": {
         "type": "object",
         "properties": {
-          "locale": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          },
-          "responsibilities": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "url": {
+            "type": "string",
+            "example": "https://assets.chahyunwoo.dev/profile/image/abc.png"
           }
         },
         "required": [
-          "locale",
-          "title",
-          "role",
-          "responsibilities"
+          "url"
         ]
       },
       "CreateExperienceDto": {
@@ -5039,24 +7225,6 @@
             }
           }
         }
-      },
-      "ProjectTranslationDto": {
-        "type": "object",
-        "properties": {
-          "locale": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "locale",
-          "title"
-        ]
       },
       "CreateProjectDto": {
         "type": "object",
@@ -5152,6 +7320,43 @@
           "name"
         ]
       },
+      "SkillRecordDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "category": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "name": {
+            "type": "string",
+            "example": "TypeScript"
+          },
+          "proficiency": {
+            "type": "number",
+            "example": 90
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 0
+          }
+        },
+        "required": [
+          "id",
+          "category",
+          "name",
+          "proficiency",
+          "description",
+          "sortOrder"
+        ]
+      },
       "UpdateSkillDto": {
         "type": "object",
         "properties": {
@@ -5175,25 +7380,6 @@
             "type": "string"
           }
         }
-      },
-      "EducationTranslationDto": {
-        "type": "object",
-        "properties": {
-          "locale": {
-            "type": "string"
-          },
-          "institution": {
-            "type": "string"
-          },
-          "degree": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "locale",
-          "institution",
-          "degree"
-        ]
       },
       "CreateEducationDto": {
         "type": "object",
@@ -5234,38 +7420,6 @@
             }
           }
         }
-      },
-      "WorkTranslationDto": {
-        "type": "object",
-        "properties": {
-          "locale": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          },
-          "summary": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "highlights": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "locale",
-          "title",
-          "summary",
-          "content"
-        ]
       },
       "CreateWorkDto": {
         "type": "object",
@@ -5317,6 +7471,74 @@
         "required": [
           "type",
           "techStack",
+          "translations"
+        ]
+      },
+      "WorkRecordDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "type": {
+            "type": "string",
+            "example": "company"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "example": false
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "demoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "repoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "featured": {
+            "type": "boolean",
+            "example": false
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "startDate",
+          "endDate",
+          "isCurrent",
+          "techStack",
+          "demoUrl",
+          "repoUrl",
+          "featured",
+          "sortOrder",
           "translations"
         ]
       },
@@ -5392,6 +7614,66 @@
           "name",
           "email",
           "message"
+        ]
+      },
+      "ContactResultDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Message sent successfully"
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ]
+      },
+      "ContactMessageDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "홍길동"
+          },
+          "email": {
+            "type": "string",
+            "example": "someone@example.com"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true,
+            "example": "협업 문의"
+          },
+          "message": {
+            "type": "string",
+            "example": "문의 내용입니다."
+          },
+          "read": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "subject",
+          "message",
+          "read",
+          "createdAt"
         ]
       }
     }
