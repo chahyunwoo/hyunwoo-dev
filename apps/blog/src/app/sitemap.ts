@@ -18,12 +18,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 색인에서 대량으로 빠지고, 아무 에러도 남지 않아 알아채기까지 오래 걸린다.
   // 발행 글은 항상 1개 이상이므로 0개는 정상 상태가 아니라 장애로 간주한다.
   //
-  // 단, 실제 배포 빌드에서만 막는다. CI의 `pnpm build`는 API 서버 없이 도는
-  // 컴파일 검증이라(워크플로 Build 스텝에 환경변수가 없어 API_URL이
-  // localhost:4000 기본값으로 떨어진다) 글 0개가 정상이다. 여기서 던지면
-  // 실제 장애가 아닌데도 CI가 빨개져 게이트로서 의미가 없어진다.
-  // VERCEL 환경변수는 Vercel 빌드에서만 설정된다.
-  if (posts.length === 0 && process.env.VERCEL) {
+  // 단, **프로덕션 배포 빌드에서만** 막는다.
+  //  - CI의 `pnpm build`: 워크플로 Build 스텝에 환경변수가 없어 API_URL이
+  //    localhost:4000 기본값으로 떨어진다. 글 0개가 정상이다.
+  //  - Vercel Preview 빌드: Preview 환경에는 NEXT_PUBLIC_API_URL이 설정돼
+  //    있지 않아 역시 글 0개가 된다(실측 2026-09-04: `vercel env ls preview`에
+  //    API_URL/API_KEY 둘 다 없음). 여기서 던지면 dev에 푸시할 때마다
+  //    Preview 배포가 Error로 끝나 배포 슬롯만 소모한다.
+  // 실제로 막아야 할 것은 "빈 sitemap이 프로덕션에 나가는 것" 하나뿐이므로
+  // VERCEL_ENV === 'production' 으로 좁힌다.
+  if (posts.length === 0 && process.env.VERCEL_ENV === 'production') {
     throw new Error(
       '[sitemap] 발행 글이 0개다. 빌드 타임에 API 응답을 받지 못했을 가능성이 높다. ' +
         '빈 sitemap 배포를 막기 위해 빌드를 실패시킨다. ' +
