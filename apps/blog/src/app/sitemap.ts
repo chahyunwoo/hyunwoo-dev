@@ -4,6 +4,23 @@ import { getPublishedPosts } from '@/entities/post'
 
 const ABOUT_LAST_MODIFIED = '2025-03-27T00:00:00.000Z'
 
+/**
+ * sitemap 을 **동적 라우트로 강제**한다.
+ *
+ * 기본값(정적 생성)에서는 Vercel 이 이 라우트를 `compute: "static"` 인
+ * route handler 로 취급해 CDN 에 `s-maxage=86400` 으로 얹는다. 그러면
+ * on-demand revalidate 가 Next 캐시를 지워도 **CDN 이 최대 24시간 옛 응답을
+ * 계속 서빙**해서 새 글이 sitemap 에 안 뜬다(실측 2026-09-04).
+ *
+ * 같은 revalidate 호출에서 홈(`/`)은 `x-vercel-cache: MISS` 로 갱신되는데
+ * `/sitemap.xml` 만 `HIT`(age 1509)로 남는 것을 확인했다. 차이는 이 라우트가
+ * prerender-manifest 에 `compute: static` 으로 올라간다는 점이었다.
+ *
+ * 동적으로 두면 매 요청이 API 를 타지만, sitemap 은 크롤러만 부르는
+ * 저빈도 경로라 비용보다 색인 지연을 없애는 편이 낫다.
+ */
+export const dynamic = 'force-dynamic'
+
 // 카테고리/태그는 `/?category=...&tag=...` 형태의 쿼리스트링 URL이라 sitemap에 넣지 않는다.
 // 실측(2026-09-04): 라이브 sitemap 152개 중 106개(70%)가 이 조합이었고,
 // 전부 같은 홈 문서의 변형이라 Google이 대표 URL로 접는다. 실제 글 URL의
@@ -18,19 +35,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 색인에서 대량으로 빠지고, 아무 에러도 남지 않아 알아채기까지 오래 걸린다.
   // 발행 글은 항상 1개 이상이므로 0개는 정상 상태가 아니라 장애로 간주한다.
   //
-  // 단, **프로덕션 배포 빌드에서만** 막는다.
-  //  - CI의 `pnpm build`: 워크플로 Build 스텝에 환경변수가 없어 API_URL이
-  //    localhost:4000 기본값으로 떨어진다. 글 0개가 정상이다.
-  //  - Vercel Preview 빌드: Preview 환경에는 NEXT_PUBLIC_API_URL이 설정돼
-  //    있지 않아 역시 글 0개가 된다(실측 2026-09-04: `vercel env ls preview`에
-  //    API_URL/API_KEY 둘 다 없음). 여기서 던지면 dev에 푸시할 때마다
-  //    Preview 배포가 Error로 끝나 배포 슬롯만 소모한다.
-  // 실제로 막아야 할 것은 "빈 sitemap이 프로덕션에 나가는 것" 하나뿐이므로
-  // VERCEL_ENV === 'production' 으로 좁힌다.
-  if (posts.length === 0 && process.env.VERCEL_ENV === 'production') {
-    throw new Error(
-      '[sitemap] 발행 글이 0개다. 빌드 타임에 API 응답을 받지 못했을 가능성이 높다. ' +
-        '빈 sitemap 배포를 막기 위해 빌드를 실패시킨다. ' +
+  // ⚠️ 이 라우트는 `force-dynamic` 이라 **요청마다** 실행된다. 예전처럼 여기서
+  // throw 하면 빌드가 아니라 **런타임 500**이 된다. 크롤러에게 500은 빈 sitemap
+  // 보다 나쁜 신호이므로 던지지 않는다.
+  //
+  // 대신 정적 페이지만이라도 내보낸다. 글이 빠진 sitemap은 그 자체로 손해지만,
+  // 색인된 글 URL은 이미 알려져 있어 즉시 사라지지 않는다. 로그로 흔적을 남겨
+  // 장애를 눈에 띄게 하는 편이 낫다(`apiFetch`도 [apiFetch] 로그를 남긴다).
+  if (posts.length === 0) {
+    console.error(
+      '[sitemap] 발행 글이 0개다. API 응답을 받지 못했을 가능성이 높다. ' +
         'API 상태를 확인하라: curl -s -o /dev/null -w "%{http_code}" $NEXT_PUBLIC_API_URL/health',
     )
   }
