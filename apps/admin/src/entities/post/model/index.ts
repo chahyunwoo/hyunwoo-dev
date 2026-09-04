@@ -1,1 +1,1 @@
-export type { CreatePostBody, Post, PostListParams, PostListResponse, UpdatePostBody } from './post.types'
+export type { CreatePostBody, Post, PostListParams, UpdatePostBody } from './post.types'

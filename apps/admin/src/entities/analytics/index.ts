@@ -14,6 +14,7 @@ export {
   visitorsOptions,
   visitorsTimelineOptions,
 } from './api'
+export { REFERRER_CATEGORY_COLORS, REFERRER_CATEGORY_LABELS } from './config/referrer-colors'
 export type {
   AdminLog,
   DashboardData,
@@ -27,3 +28,4 @@ export type {
   VisitorTimelineItem,
   VisitorVisit,
 } from './model'
+export { ReferrerPieChart } from './ui/referrer-pie-chart'

@@ -9,31 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PostsIndexRouteImport } from './routes/posts/index'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
-import { Route as PostsNewRouteImport } from './routes/posts/new'
-import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
-import { Route as PortfolioManageRouteImport } from './routes/portfolio/manage'
 import { Route as PortfolioContentRouteImport } from './routes/portfolio/content'
+import { Route as PortfolioManageRouteImport } from './routes/portfolio/manage'
+import { Route as PostsIndexRouteImport } from './routes/posts/index'
+import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
+import { Route as PostsNewRouteImport } from './routes/posts/new'
 import { Route as PortfolioWorksIndexRouteImport } from './routes/portfolio/works/index'
-import { Route as PortfolioWorksNewRouteImport } from './routes/portfolio/works/new'
 import { Route as PortfolioWorksIdRouteImport } from './routes/portfolio/works/$id'
+import { Route as PortfolioWorksNewRouteImport } from './routes/portfolio/works/new'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PostsIndexRoute = PostsIndexRouteImport.update({
-  id: '/posts/',
-  path: '/posts/',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
@@ -41,14 +36,9 @@ const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
   path: '/portfolio/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PostsNewRoute = PostsNewRouteImport.update({
-  id: '/posts/new',
-  path: '/posts/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PostsSlugRoute = PostsSlugRouteImport.update({
-  id: '/posts/$slug',
-  path: '/posts/$slug',
+const PortfolioContentRoute = PortfolioContentRouteImport.update({
+  id: '/portfolio/content',
+  path: '/portfolio/content',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfolioManageRoute = PortfolioManageRouteImport.update({
@@ -56,9 +46,19 @@ const PortfolioManageRoute = PortfolioManageRouteImport.update({
   path: '/portfolio/manage',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortfolioContentRoute = PortfolioContentRouteImport.update({
-  id: '/portfolio/content',
-  path: '/portfolio/content',
+const PostsIndexRoute = PostsIndexRouteImport.update({
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostsSlugRoute = PostsSlugRouteImport.update({
+  id: '/posts/$slug',
+  path: '/posts/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostsNewRoute = PostsNewRouteImport.update({
+  id: '/posts/new',
+  path: '/posts/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfolioWorksIndexRoute = PortfolioWorksIndexRouteImport.update({
@@ -66,14 +66,14 @@ const PortfolioWorksIndexRoute = PortfolioWorksIndexRouteImport.update({
   path: '/portfolio/works/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortfolioWorksNewRoute = PortfolioWorksNewRouteImport.update({
-  id: '/portfolio/works/new',
-  path: '/portfolio/works/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PortfolioWorksIdRoute = PortfolioWorksIdRouteImport.update({
   id: '/portfolio/works/$id',
   path: '/portfolio/works/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioWorksNewRoute = PortfolioWorksNewRouteImport.update({
+  id: '/portfolio/works/new',
+  path: '/portfolio/works/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -175,13 +175,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -189,11 +182,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/posts/': {
-      id: '/posts/'
-      path: '/posts'
-      fullPath: '/posts/'
-      preLoaderRoute: typeof PostsIndexRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolio/': {
@@ -203,18 +196,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/posts/new': {
-      id: '/posts/new'
-      path: '/posts/new'
-      fullPath: '/posts/new'
-      preLoaderRoute: typeof PostsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/posts/$slug': {
-      id: '/posts/$slug'
-      path: '/posts/$slug'
-      fullPath: '/posts/$slug'
-      preLoaderRoute: typeof PostsSlugRouteImport
+    '/portfolio/content': {
+      id: '/portfolio/content'
+      path: '/portfolio/content'
+      fullPath: '/portfolio/content'
+      preLoaderRoute: typeof PortfolioContentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolio/manage': {
@@ -224,11 +210,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioManageRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portfolio/content': {
-      id: '/portfolio/content'
-      path: '/portfolio/content'
-      fullPath: '/portfolio/content'
-      preLoaderRoute: typeof PortfolioContentRouteImport
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts/'
+      preLoaderRoute: typeof PostsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$slug': {
+      id: '/posts/$slug'
+      path: '/posts/$slug'
+      fullPath: '/posts/$slug'
+      preLoaderRoute: typeof PostsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/new': {
+      id: '/posts/new'
+      path: '/posts/new'
+      fullPath: '/posts/new'
+      preLoaderRoute: typeof PostsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolio/works/': {
@@ -238,18 +238,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioWorksIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portfolio/works/new': {
-      id: '/portfolio/works/new'
-      path: '/portfolio/works/new'
-      fullPath: '/portfolio/works/new'
-      preLoaderRoute: typeof PortfolioWorksNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/portfolio/works/$id': {
       id: '/portfolio/works/$id'
       path: '/portfolio/works/$id'
       fullPath: '/portfolio/works/$id'
       preLoaderRoute: typeof PortfolioWorksIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio/works/new': {
+      id: '/portfolio/works/new'
+      path: '/portfolio/works/new'
+      fullPath: '/portfolio/works/new'
+      preLoaderRoute: typeof PortfolioWorksNewRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

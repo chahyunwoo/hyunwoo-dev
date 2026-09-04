@@ -2,44 +2,68 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Development Commands
+## 이 저장소는 모노레포다
 
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
+pnpm workspace + turbo. 앱 3개와 공유 패키지 3개로 구성된다.
 
-## Project Architecture
+| 워크스페이스 | 스택 | 비고 |
+|---|---|---|
+| `apps/blog` | Next.js (App Router) | chahyunwoo.dev |
+| `apps/portfolio` | Next.js (App Router) | 포트폴리오, 3D(three/@react-three) |
+| `apps/admin` | Vite + React + TanStack Router | 어드민 SPA |
+| `packages/shared` | — | API 클라이언트, ENDPOINTS, 생성 타입, 공용 config/lib |
+| `packages/ui` | — | Radix 기반 공용 컴포넌트 |
+| `packages/mdx` | — | MDX 렌더러와 커스텀 컴포넌트 |
 
-This is a Next.js 15 personal blog with TypeScript, built using the App Router architecture. Key architectural decisions:
+## 명령
 
-### Content Management
-- Blog posts are stored as MDX files in `src/posts/` directory
-- Content is processed using `next-mdx-remote` with syntax highlighting via `rehype-pretty-code`
-- Korean language support with internationalization for the about page (`/about/[locale]/`)
+전부 루트에서 turbo로 돈다. **npm이 아니라 pnpm이다.**
 
-### Styling & UI
-- Tailwind CSS 4 with custom configuration
-- shadcn/ui components in `src/components/ui/`
-- Custom MDX components in `src/components/mdx/` for enhanced content rendering
-- Theme switching via `next-themes` with provider in `src/providers/theme-provider.tsx`
+```bash
+pnpm dev              # 전체
+pnpm dev:blog         # 개별 (dev:admin, dev:portfolio)
+pnpm build
+pnpm lint             # biome check --write  (ESLint 아님)
+pnpm lint:ci          # biome check
+pnpm typecheck        # 전 워크스페이스 tsc --noEmit
+pnpm test:run         # vitest
+```
 
-### Project Structure
-- `src/app/` - Next.js App Router pages and layouts
-- `src/components/` - Reusable React components organized by purpose
-- `src/lib/` - Utility functions including `cn()` for class merging
-- `src/types/` - TypeScript type definitions
-- `src/posts/` - MDX blog content files
-- `src/styles/` - Global CSS styles
+OpenAPI 타입 파이프라인:
 
-### Key Features
-- Dynamic blog post routing via `[slug]` pages
-- SEO optimization with sitemap and robots.txt generation
-- Responsive layout with Header/Footer components
-- Code syntax highlighting in blog posts
+```bash
+pnpm api:sync         # api-server가 커밋한 openapi.json을 packages/shared/로 복사
+pnpm api:codegen      # openapi-typescript로 생성 타입 갱신
+```
 
-### Path Aliases
-Uses `@/*` alias pointing to `src/*` for clean imports.
+## 콘텐츠는 파일이 아니라 API에서 온다
+
+블로그 글은 저장소의 MDX 파일이 아니라 **별도 백엔드(`chahyunwoo-api`, NestJS)** 에서 가져온다.
+`packages/shared/src/api`의 `apiFetch`/`ENDPOINTS`를 쓰고, 본문 MDX는 `packages/mdx`가 렌더한다.
+
+백엔드는 이 저장소에 없다. API 스펙은 `packages/shared/openapi.json`에 커밋해 두고
+(`pnpm api:sync`로 받아온다) 거기서 타입을 생성한다.
+
+## FSD (Feature-Sliced Design)
+
+각 앱의 `src/`는 FSD 레이어로 나뉜다. 레이어는 **아래에서 위로만** 의존한다:
+
+```
+app → pages → widgets → features → entities → shared
+```
+
+- `shared`는 어느 도메인도 몰라야 한다. `shared`가 `entities`를 import하면 위반이다.
+- `widgets`는 조합만 한다. 서버 리소스를 직접 부르지 말고 `entities`의 조회 함수를 쓴다.
+- 슬라이스 밖으로 나가는 것은 `index.ts`(public API)를 통한다.
+
+과거 위반 사례와 어디로 옮겼는지는 `docs/FSD-LAYER-VIOLATIONS.md`에 있다.
+
+**이 규칙은 지금 도구로 강제되지 않는다**(biome에 import 경계 룰 없음). 리뷰에서 본다.
+
+## 배포
+
+`main` 푸시가 곧 배포다(Vercel). `dev`는 통합 브랜치이고 배포되지 않는다.
+`dev → main`은 승인 없이 하지 않는다.
 
 ---
 

@@ -44,5 +44,3 @@ next-env.d.ts
 # turbo
 .turbo
 
-# claude code
-CLAUDE.md

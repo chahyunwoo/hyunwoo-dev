@@ -1,0 +1,5399 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/analytics/pageview": {
+      "post": {
+        "operationId": "AnalyticsController_trackPageView",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrackPageViewDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/dashboard": {
+      "get": {
+        "operationId": "AnalyticsController_getDashboard",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/popular-posts": {
+      "get": {
+        "operationId": "AnalyticsController_getPopularPosts",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "days",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/visitors": {
+      "get": {
+        "operationId": "AnalyticsController_getVisitors",
+        "parameters": [
+          {
+            "name": "days",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "app",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/visitors/timeline": {
+      "get": {
+        "operationId": "AnalyticsController_getVisitorsTimeline",
+        "parameters": [
+          {
+            "name": "days",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "app",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/referrers": {
+      "get": {
+        "operationId": "AnalyticsController_getReferrers",
+        "parameters": [
+          {
+            "name": "days",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "app",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/system": {
+      "get": {
+        "operationId": "AnalyticsController_getSystem",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/analytics/admin-logs": {
+      "get": {
+        "operationId": "AnalyticsController_getAdminLogs",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/2fa/verify": {
+      "post": {
+        "operationId": "AuthController_verifyTwoFactor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verify2faDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/2fa/status": {
+      "get": {
+        "operationId": "AuthController_getTwoFactorStatus",
+        "parameters": [],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/2fa/setup": {
+      "post": {
+        "operationId": "AuthController_setupTwoFactor",
+        "parameters": [],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/2fa/disable": {
+      "post": {
+        "operationId": "AuthController_disableTwoFactor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Enable2faDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/2fa/enable": {
+      "post": {
+        "operationId": "AuthController_enableTwoFactor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Enable2faDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/logout-all": {
+      "post": {
+        "operationId": "AuthController_logoutAll",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/session/extend": {
+      "post": {
+        "operationId": "AuthController_extendSession",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/preview-token": {
+      "post": {
+        "operationId": "AuthController_createPreviewToken",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/verify-preview": {
+      "get": {
+        "operationId": "AuthController_verifyPreview",
+        "parameters": [
+          {
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/blog/posts/search": {
+      "get": {
+        "operationId": "BlogController_search",
+        "parameters": [
+          {
+            "name": "q",
+            "required": true,
+            "in": "query",
+            "description": "Search keyword",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 50,
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "q must be at least 2 characters"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/posts": {
+      "get": {
+        "operationId": "BlogController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 50,
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostListResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      },
+      "post": {
+        "operationId": "BlogController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 409
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Conflict"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Slug already exists"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/posts/recent": {
+      "get": {
+        "operationId": "BlogController_getRecentPosts",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 10,
+              "default": 5,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/categories": {
+      "get": {
+        "operationId": "BlogController_getCategories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      },
+      "post": {
+        "operationId": "BlogController_createCategory",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/categories/{id}": {
+      "put": {
+        "operationId": "BlogController_updateCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      },
+      "delete": {
+        "operationId": "BlogController_deleteCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/tags": {
+      "get": {
+        "operationId": "BlogController_getTags",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maximum": 50,
+              "default": 15,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/posts/{slug}": {
+      "get": {
+        "operationId": "BlogController_findOne",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Post not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      },
+      "put": {
+        "operationId": "BlogController_update",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Post not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      },
+      "delete": {
+        "operationId": "BlogController_remove",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Post not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/posts/{slug}/preview": {
+      "get": {
+        "operationId": "BlogController_findOnePreview",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Post not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/posts/{slug}/related": {
+      "get": {
+        "operationId": "BlogController_getRelatedPosts",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Post not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/blog/images": {
+      "post": {
+        "operationId": "BlogController_uploadImage",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No file provided or invalid file type"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "blog"
+        ]
+      }
+    },
+    "/api/portfolio/locales": {
+      "get": {
+        "operationId": "PortfolioController_getLocales",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "post": {
+        "operationId": "PortfolioController_createLocale",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLocaleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 409
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Conflict"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Locale already exists"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/profile": {
+      "get": {
+        "operationId": "PortfolioController_getProfile",
+        "parameters": [
+          {
+            "name": "locale",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "ko",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unsupported locale"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "put": {
+        "operationId": "PortfolioController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/profile/all": {
+      "get": {
+        "operationId": "PortfolioController_getProfileWithTranslations",
+        "parameters": [],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/experiences": {
+      "get": {
+        "operationId": "PortfolioController_getExperiences",
+        "parameters": [
+          {
+            "name": "locale",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "ko",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unsupported locale"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "post": {
+        "operationId": "PortfolioController_createExperience",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExperienceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/projects": {
+      "get": {
+        "operationId": "PortfolioController_getProjects",
+        "parameters": [
+          {
+            "name": "locale",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "ko",
+              "type": "string"
+            }
+          },
+          {
+            "name": "featured",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unsupported locale"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "post": {
+        "operationId": "PortfolioController_createProject",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/skills": {
+      "get": {
+        "operationId": "PortfolioController_getSkills",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "post": {
+        "operationId": "PortfolioController_createSkill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSkillDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/works": {
+      "get": {
+        "operationId": "PortfolioController_getWorks",
+        "parameters": [
+          {
+            "name": "locale",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "business",
+                "personal"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unsupported locale"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "post": {
+        "operationId": "PortfolioController_createWork",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/works/{id}": {
+      "get": {
+        "operationId": "PortfolioController_getWorkById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Work not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "put": {
+        "operationId": "PortfolioController_updateWork",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Work not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "delete": {
+        "operationId": "PortfolioController_deleteWork",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Work not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/experiences/{id}": {
+      "get": {
+        "operationId": "PortfolioController_getExperienceById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Experience not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "put": {
+        "operationId": "PortfolioController_updateExperience",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExperienceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Experience not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "delete": {
+        "operationId": "PortfolioController_deleteExperience",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Experience not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/projects/{id}": {
+      "get": {
+        "operationId": "PortfolioController_getProjectById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Project not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "put": {
+        "operationId": "PortfolioController_updateProject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Project not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "delete": {
+        "operationId": "PortfolioController_deleteProject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Project not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/education/{id}": {
+      "get": {
+        "operationId": "PortfolioController_getEducationById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Education not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "put": {
+        "operationId": "PortfolioController_updateEducation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEducationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Education not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "delete": {
+        "operationId": "PortfolioController_deleteEducation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Education not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/education": {
+      "get": {
+        "operationId": "PortfolioController_getEducation",
+        "parameters": [
+          {
+            "name": "locale",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "ko",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unsupported locale"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "post": {
+        "operationId": "PortfolioController_createEducation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEducationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/locales/{id}": {
+      "delete": {
+        "operationId": "PortfolioController_deleteLocale",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Locale not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/profile/image": {
+      "post": {
+        "operationId": "PortfolioController_uploadProfileImage",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No file provided or invalid file type"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/profile/icon": {
+      "post": {
+        "operationId": "PortfolioController_uploadProfileIcon",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No file provided or invalid file type"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/skills/{id}": {
+      "put": {
+        "operationId": "PortfolioController_updateSkill",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSkillDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Skill not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      },
+      "delete": {
+        "operationId": "PortfolioController_deleteSkill",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Skill not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/contact": {
+      "post": {
+        "operationId": "PortfolioController_createContact",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateContactDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Validation failed"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/contacts": {
+      "get": {
+        "operationId": "PortfolioController_getContacts",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/contacts/{id}/read": {
+      "put": {
+        "operationId": "PortfolioController_markContactRead",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact message not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    },
+    "/api/portfolio/contacts/{id}": {
+      "delete": {
+        "operationId": "PortfolioController_deleteContact",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact message not found"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/api/..."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2026-01-01T00:00:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "portfolio"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Hyunwoo API",
+    "description": "chahyunwoo.dev blog & portfolio API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "access_token"
+      },
+      "api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    },
+    "schemas": {
+      "TrackPageViewDto": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "example": "/blog/my-post"
+          },
+          "appName": {
+            "type": "string",
+            "enum": [
+              "blog",
+              "portfolio",
+              "admin"
+            ],
+            "example": "blog"
+          },
+          "referrer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "appName"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "admin"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "Verify2faDto": {
+        "type": "object",
+        "properties": {
+          "twoFactorToken": {
+            "type": "string",
+            "example": "abc123..."
+          },
+          "code": {
+            "type": "string",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "twoFactorToken",
+          "code"
+        ]
+      },
+      "Enable2faDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "PostTagDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "React"
+          },
+          "slug": {
+            "type": "string",
+            "example": "react"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ]
+      },
+      "PostSummaryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Next.js 15 App Router 완전 정복"
+          },
+          "slug": {
+            "type": "string",
+            "example": "nextjs-15-app-router"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "미입력 시 content에서 자동 추출"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://assets.chahyunwoo.dev/thumbnail/example.png"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "example": "Frontend"
+          },
+          "published": {
+            "type": "boolean",
+            "example": true
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "readingTime": {
+            "type": "number",
+            "example": 5,
+            "description": "분 단위 예상 읽기 시간"
+          },
+          "viewCount": {
+            "type": "number",
+            "example": 128
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostTagDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "description",
+          "thumbnailUrl",
+          "category",
+          "published",
+          "publishedAt",
+          "readingTime",
+          "viewCount",
+          "createdAt",
+          "updatedAt",
+          "tags"
+        ]
+      },
+      "PostListResponseDto": {
+        "type": "object",
+        "properties": {
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostSummaryDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "example": 40,
+            "description": "필터 조건에 맞는 전체 건수"
+          },
+          "page": {
+            "type": "number",
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "example": 10
+          },
+          "totalPages": {
+            "type": "number",
+            "example": 4
+          }
+        },
+        "required": [
+          "posts",
+          "total",
+          "page",
+          "limit",
+          "totalPages"
+        ]
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "icon": {
+            "type": "string",
+            "example": "Monitor",
+            "description": "lucide-react 아이콘 이름"
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CreatePostDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Next.js 15 App Router 완전 정복"
+          },
+          "description": {
+            "type": "string",
+            "description": "미입력 시 content에서 자동 추출"
+          },
+          "content": {
+            "type": "string",
+            "description": "MDX content"
+          },
+          "category": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "description": "이미지 업로드 API에서 받은 URL"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "publishedAt": {
+            "type": "string",
+            "example": "2026-03-21",
+            "description": "발행일 (미입력 시 발행 시점 자동)"
+          },
+          "tags": {
+            "example": [
+              "React",
+              "TypeScript"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ]
+      },
+      "UpdatePostDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Next.js 15 App Router 완전 정복"
+          },
+          "description": {
+            "type": "string",
+            "description": "미입력 시 content에서 자동 추출"
+          },
+          "content": {
+            "type": "string",
+            "description": "MDX content"
+          },
+          "category": {
+            "type": "string",
+            "example": "Frontend"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "description": "이미지 업로드 API에서 받은 URL"
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          },
+          "publishedAt": {
+            "type": "string",
+            "example": "2026-03-21",
+            "description": "발행일 (미입력 시 발행 시점 자동)"
+          },
+          "tags": {
+            "example": [
+              "React",
+              "TypeScript"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateLocaleDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "zh"
+          },
+          "label": {
+            "type": "string",
+            "example": "中文"
+          }
+        },
+        "required": [
+          "code",
+          "label"
+        ]
+      },
+      "SocialLinkDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "href"
+        ]
+      },
+      "ProfileTranslationDto": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "jobTitle": {
+            "type": "string"
+          },
+          "introduction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "locale",
+          "jobTitle",
+          "introduction"
+        ]
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string"
+          },
+          "socialLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SocialLinkDto"
+            }
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileTranslationDto"
+            }
+          }
+        }
+      },
+      "ExperienceTranslationDto": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "locale",
+          "title",
+          "role",
+          "responsibilities"
+        ]
+      },
+      "CreateExperienceDto": {
+        "type": "object",
+        "properties": {
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "default": false
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExperienceTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "startDate",
+          "translations"
+        ]
+      },
+      "UpdateExperienceDto": {
+        "type": "object",
+        "properties": {
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "default": false
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExperienceTranslationDto"
+            }
+          }
+        }
+      },
+      "ProjectTranslationDto": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "locale",
+          "title"
+        ]
+      },
+      "CreateProjectDto": {
+        "type": "object",
+        "properties": {
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "demoUrl": {
+            "type": "string"
+          },
+          "repoUrl": {
+            "type": "string"
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "featured": {
+            "type": "boolean",
+            "default": false
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "techStack",
+          "translations"
+        ]
+      },
+      "UpdateProjectDto": {
+        "type": "object",
+        "properties": {
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "demoUrl": {
+            "type": "string"
+          },
+          "repoUrl": {
+            "type": "string"
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "featured": {
+            "type": "boolean",
+            "default": false
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectTranslationDto"
+            }
+          }
+        }
+      },
+      "CreateSkillDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "proficiency": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 100
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "category",
+          "name"
+        ]
+      },
+      "UpdateSkillDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "proficiency": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 100
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "EducationTranslationDto": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "degree": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "locale",
+          "institution",
+          "degree"
+        ]
+      },
+      "CreateEducationDto": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EducationTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "period",
+          "translations"
+        ]
+      },
+      "UpdateEducationDto": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EducationTranslationDto"
+            }
+          }
+        }
+      },
+      "WorkTranslationDto": {
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "locale",
+          "title",
+          "summary",
+          "content"
+        ]
+      },
+      "CreateWorkDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "business",
+              "personal"
+            ]
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "default": false
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "demoUrl": {
+            "type": "string"
+          },
+          "repoUrl": {
+            "type": "string"
+          },
+          "featured": {
+            "type": "boolean",
+            "default": false
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkTranslationDto"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "techStack",
+          "translations"
+        ]
+      },
+      "UpdateWorkDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "business",
+              "personal"
+            ]
+          },
+          "sortOrder": {
+            "type": "number",
+            "default": 0
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "isCurrent": {
+            "type": "boolean",
+            "default": false
+          },
+          "techStack": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "demoUrl": {
+            "type": "string"
+          },
+          "repoUrl": {
+            "type": "string"
+          },
+          "featured": {
+            "type": "boolean",
+            "default": false
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkTranslationDto"
+            }
+          }
+        }
+      },
+      "CreateContactDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "subject": {
+            "type": "string",
+            "example": "Collaboration Inquiry"
+          },
+          "message": {
+            "type": "string",
+            "example": "Hello, I would like to discuss..."
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "message"
+        ]
+      }
+    }
+  }
+}

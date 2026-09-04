@@ -2,6 +2,9 @@ import { formatDate } from '@hyunwoo/shared/lib'
 import { Badge, Progress, Table, TableBody, TableCell, TableRow } from '@hyunwoo/ui'
 import { Clock, Database, Eye, FileCheck, FileText, LayoutGrid, Link2, Server, Users } from 'lucide-react'
 import {
+  REFERRER_CATEGORY_COLORS,
+  REFERRER_CATEGORY_LABELS,
+  ReferrerPieChart,
   useAdminLogs,
   useDashboard,
   usePopularPosts,
@@ -9,8 +12,7 @@ import {
   useSystemInfo,
   useVisitors,
 } from '@/entities/analytics'
-import { REFERRER_CATEGORY_COLORS, REFERRER_CATEGORY_LABELS } from '@/shared/config'
-import { DashboardCard, EmptyState, ReferrerPieChart, RingProgress, StatCard } from '@/shared/ui'
+import { DashboardCard, EmptyState, RingProgress, StatCard } from '@/shared/ui'
 import { VisitorsTimelineCard } from './visitors-timeline-card'
 
 export function DashboardPage() {

@@ -1,0 +1,91 @@
+name: OpenAPI Spec Sync Check
+
+# api-server의 openapi.json이 이 저장소에 커밋된 사본과 갈라졌는지 검사한다.
+#
+# 왜 별도 워크플로인가:
+#   CI(ci.yml)의 drift 게이트는 "커밋된 스펙 ↔ 생성 타입"만 본다. 빌드 경로가 백엔드
+#   네트워크 상태에 묶이면 운영 배포가 백엔드 장애에 끌려가기 때문에 의도적으로 그렇게 뒀다.
+#   그 결과 "api-server의 스펙 ↔ 이 저장소의 스펙" 구간에는 게이트가 없어서, 백엔드가 DTO를
+#   바꿔 배포해도 이쪽 CI는 계속 초록이고 프론트 타입은 조용히 옛 API를 기술하게 된다.
+#   이 워크플로가 그 구간만 따로 본다 — 빌드를 막지 않고, 갈라지면 이슈로 알린다.
+
+on:
+  schedule:
+    # 매일 00:00 UTC = 09:00 KST
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    name: Spec drift vs api-server
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      # pnpm install을 하지 않는다 — sync 스크립트는 node 내장 모듈만 쓴다.
+      # 스펙을 못 받으면 무조건 잡을 실패시킨다. 조용한 초록이야말로 이 워크플로가
+      # 막으려던 실패 형태다.
+      #
+      # 이전에는 404만 warning으로 건너뛰었는데 두 가지가 문제였다.
+      #  (1) 성공한 스케줄 실행은 알림이 없어서, warning은 로그를 직접 열지 않으면 아무도 안 본다.
+      #      "조용한 초록"이 "warning 붙은 초록"이 됐을 뿐이다.
+      #  (2) 판정을 `grep -q '404'`로 했는데 이게 stderr 전체(응답 본문 앞 200자, node 스택트레이스)를
+      #      훑어서, 전혀 다른 실패라도 그 안에 '404'가 있으면 초록이 됐다.
+      #
+      # 대신 실패 메시지가 원인을 말하게 한다. 백엔드 스펙이 아직 기준 브랜치에 없으면 빨간데,
+      # 그건 파이프라인이 아직 연결되지 않았다는 정확한 신호다.
+      - name: Fetch upstream spec
+        run: |
+          set -uo pipefail
+          if node scripts/sync-openapi.mjs; then
+            exit 0
+          fi
+          echo "::error::업스트림 스펙을 받지 못했습니다. api-server의 openapi.json이 기준 브랜치에 있는지, OPENAPI_SPEC 기본값(scripts/sync-openapi.mjs)이 맞는지 확인하세요."
+          exit 1
+
+      - name: Compare
+        id: compare
+        run: |
+          set -uo pipefail
+          if git diff --quiet packages/shared/openapi.json; then
+            echo "drift=false" >> "$GITHUB_OUTPUT"
+            echo "스펙이 최신입니다."
+            exit 0
+          fi
+          echo "drift=true" >> "$GITHUB_OUTPUT"
+          # git diff 텍스트를 grep으로 훑으면 "기존 DTO에 필드 하나 추가" 같은 가장 흔한
+          # 변경에서 감싸는 스키마 이름이 컨텍스트라 잡히지 않는다. 두 JSON의 키 집합을 직접 비교한다.
+          # 이슈 본문 전체를 스크립트가 만든다 — 셸에서 마크다운을 조립하면 백틱 인용과
+          # heredoc 들여쓰기가 문제가 된다.
+          git show HEAD:packages/shared/openapi.json > /tmp/spec-old.json
+          node .github/scripts/summarize-spec-diff.mjs /tmp/spec-old.json packages/shared/openapi.json > /tmp/issue-body.md
+          cat /tmp/issue-body.md
+
+      - name: Open issue if drifted
+        if: steps.compare.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          LABEL=openapi-drift
+          # 제목 문자열 검색은 부분 매칭이라 결정적이지 않다. 라벨로 중복을 판정한다.
+          gh label create "$LABEL" --color D93F0B --description "api-server 스펙과 갈라짐" --force
+          EXISTING=$(gh issue list --state open --label "$LABEL" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            echo "::notice::이미 열린 이슈 #$EXISTING 가 있어 새로 만들지 않습니다."
+            exit 0
+          fi
+          gh issue create \
+            --title "openapi.json이 api-server와 갈라졌습니다" \
+            --label "$LABEL" \
+            --body-file /tmp/issue-body.md

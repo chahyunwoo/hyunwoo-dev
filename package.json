@@ -12,13 +12,17 @@
     "lint:ci": "turbo lint:ci",
     "test": "turbo test",
     "test:run": "turbo test:run",
+    "typecheck": "turbo typecheck",
+    "api:sync": "node scripts/sync-openapi.mjs",
+    "api:codegen": "openapi-typescript packages/shared/openapi.json -o packages/shared/src/api/generated/api.types.ts",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.8",
+    "@biomejs/biome": "^2.5.12",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
-    "turbo": "^2",
+    "openapi-typescript": "^7.13.0",
+    "turbo": "^2.10.12",
     "typescript": "^5"
   },
   "lint-staged": {

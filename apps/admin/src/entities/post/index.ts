@@ -8,4 +8,4 @@ export {
   useUpdatePost,
   useUploadThumbnail,
 } from './api'
-export type { CreatePostBody, Post, PostListParams, PostListResponse, UpdatePostBody } from './model'
+export type { CreatePostBody, Post, PostListParams, UpdatePostBody } from './model'
