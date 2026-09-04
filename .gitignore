@@ -44,3 +44,8 @@ next-env.d.ts
 # turbo
 .turbo
 
+
+# 포트폴리오 작업 노트는 별도 비공개 저장소(portfolio-source)에서 관리한다.
+# 공개 레포에 딸려 올라간 사고가 있어 차단한다(2026-09-04).
+docs/portfolio*.json
+shots/
