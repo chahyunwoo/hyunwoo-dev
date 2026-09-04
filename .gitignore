@@ -49,3 +49,16 @@ next-env.d.ts
 # 공개 레포에 딸려 올라간 사고가 있어 차단한다(2026-09-04).
 docs/portfolio*.json
 shots/
+
+# 촬영 자산. 앱을 띄워야 돌아가므로 레포 안에 두되 **커밋하지 않는다.**
+# 이 저장소는 PUBLIC 이다 — scripts/capture.js 에 절대 경로(/Users/<이름>)가 들어 있고,
+# shots.mocks.js 는 실데이터를 붙여넣고 찍는 실수가 나면 그대로 공개된다.
+# 결과 이미지는 portfolio-source 저장소에만 둔다.
+shots.config.js
+shots.mocks.js
+scripts/capture.js
+scripts/mock-server.js
+
+# Codex 용 지시 파일. 이 저장소는 Claude Code 를 쓴다.
+# 다른 저장소에서 실수로 커밋된 적이 있어 막는다.
+AGENTS.md
