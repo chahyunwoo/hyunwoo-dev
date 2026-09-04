@@ -1,11 +1,35 @@
 import { BASE_URL } from '@hyunwoo/shared/config'
 import type { MetadataRoute } from 'next'
-import { getCategoriesWithTags, getPublishedPosts } from '@/entities/post'
+import { getPublishedPosts } from '@/entities/post'
 
 const ABOUT_LAST_MODIFIED = '2025-03-27T00:00:00.000Z'
 
+// 카테고리/태그는 `/?category=...&tag=...` 형태의 쿼리스트링 URL이라 sitemap에 넣지 않는다.
+// 실측(2026-09-04): 라이브 sitemap 152개 중 106개(70%)가 이 조합이었고,
+// 전부 같은 홈 문서의 변형이라 Google이 대표 URL로 접는다. 실제 글 URL의
+// 크롤 예산만 잠식하므로 제외한다. (재현: curl -s https://chahyunwoo.dev/sitemap.xml |
+//  grep -o '<loc>[^<]*</loc>' | grep -c '?category=')
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, categories] = await Promise.all([getPublishedPosts(), getCategoriesWithTags()])
+  const posts = await getPublishedPosts()
+
+  // 빌드 타임에 API가 죽어 있으면 `apiFetch`가 모든 실패를 null로 삼키고
+  // `getPublishedPosts()`가 빈 배열을 돌려주므로, **빌드는 성공하면서**
+  // 글이 하나도 없는 sitemap이 배포된다. 그 상태가 크롤러에게 노출되면
+  // 색인에서 대량으로 빠지고, 아무 에러도 남지 않아 알아채기까지 오래 걸린다.
+  // 발행 글은 항상 1개 이상이므로 0개는 정상 상태가 아니라 장애로 간주한다.
+  //
+  // 단, 실제 배포 빌드에서만 막는다. CI의 `pnpm build`는 API 서버 없이 도는
+  // 컴파일 검증이라(워크플로 Build 스텝에 환경변수가 없어 API_URL이
+  // localhost:4000 기본값으로 떨어진다) 글 0개가 정상이다. 여기서 던지면
+  // 실제 장애가 아닌데도 CI가 빨개져 게이트로서 의미가 없어진다.
+  // VERCEL 환경변수는 Vercel 빌드에서만 설정된다.
+  if (posts.length === 0 && process.env.VERCEL) {
+    throw new Error(
+      '[sitemap] 발행 글이 0개다. 빌드 타임에 API 응답을 받지 못했을 가능성이 높다. ' +
+        '빈 sitemap 배포를 막기 위해 빌드를 실패시킨다. ' +
+        'API 상태를 확인하라: curl -s -o /dev/null -w "%{http_code}" $NEXT_PUBLIC_API_URL/health',
+    )
+  }
 
   const blogPosts: MetadataRoute.Sitemap = posts.map(post => ({
     url: `${BASE_URL}/blog/${post.meta.slug}`,
@@ -13,22 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'monthly',
     priority: 0.7,
   }))
-
-  const categoryPages: MetadataRoute.Sitemap = categories.map(cat => ({
-    url: `${BASE_URL}/?category=${encodeURIComponent(cat.category)}`,
-    lastModified: new Date().toISOString(),
-    changeFrequency: 'weekly',
-    priority: 0.6,
-  }))
-
-  const tagPages: MetadataRoute.Sitemap = categories.flatMap(cat =>
-    cat.subCategory.map(sub => ({
-      url: `${BASE_URL}/?category=${encodeURIComponent(cat.category)}&tag=${encodeURIComponent(sub.name)}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    })),
-  )
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -57,5 +65,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  return [...staticPages, ...categoryPages, ...tagPages, ...blogPosts]
+  return [...staticPages, ...blogPosts]
 }

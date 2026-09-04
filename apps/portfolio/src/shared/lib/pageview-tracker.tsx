@@ -8,7 +8,7 @@ export function PageviewTracker() {
   const pathname = usePathname()
 
   useEffect(() => {
-    trackPageview(pathname, 'blog')
+    trackPageview(pathname, 'portfolio')
   }, [pathname])
 
   return null

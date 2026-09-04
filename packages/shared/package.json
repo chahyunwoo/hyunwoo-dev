@@ -13,6 +13,7 @@
     "./api": "./src/api/index.ts",
     "./config": "./src/config/index.ts",
     "./lib": "./src/lib/index.ts",
+    "./pageview": "./src/pageview.ts",
     "./types": "./src/types/index.ts"
   },
   "dependencies": {
