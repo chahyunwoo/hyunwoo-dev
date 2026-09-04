@@ -71,8 +71,14 @@ export function CategoryModal({ opened, onClose, onSelect }: CategoryModalProps)
       })
       if (!ok) return
     }
+    // id는 nullable이다. 목록은 발행된 글의 category 값을 groupBy한 것이라,
+    // categories 테이블에 없는 이름이 글에 들어가 있으면 매칭되는 레코드가 없다.
+    if (editTarget.id === null) {
+      toast.error(`"${editTarget.category}"는 등록된 카테고리가 아니라 수정할 수 없습니다.`)
+      return
+    }
     updateCategory.mutate(
-      { category: editTarget.category, name: name.trim(), icon: selectedIcon },
+      { id: editTarget.id, name: name.trim(), icon: selectedIcon },
       { onSuccess: () => resetForm() },
     )
   }
@@ -91,7 +97,11 @@ export function CategoryModal({ opened, onClose, onSelect }: CategoryModalProps)
       variant: 'destructive',
     })
     if (!ok) return
-    deleteCategory.mutate(cat.category)
+    if (cat.id === null) {
+      toast.error(`"${cat.category}"는 등록된 카테고리가 아니라 삭제할 수 없습니다.`)
+      return
+    }
+    deleteCategory.mutate(cat.id)
   }
 
   const startEdit = (cat: Category) => {
