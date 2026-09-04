@@ -44,11 +44,11 @@ export async function BlogSidebar() {
             <SidebarTagCloud
               tags={tagData.tags.map(t => [t.name, t.count] as [string, number])}
               totalCount={tagData.total}
-              renderMoreButton={label => (
+              moreButton={
                 <OpenSearchButton className="text-[11px] text-muted-foreground hover:text-primary transition-colors cursor-pointer underline underline-offset-2">
-                  {label}
+                  +{tagData.total - tagData.tags.length} more
                 </OpenSearchButton>
-              )}
+              }
             />
           </>
         )
