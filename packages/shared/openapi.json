@@ -5512,8 +5512,13 @@
           },
           "category": {
             "type": "string",
-            "example": "search",
-            "description": "direct | search | social | other"
+            "enum": [
+              "direct",
+              "search",
+              "social",
+              "other"
+            ],
+            "example": "search"
           },
           "count": {
             "type": "number",
@@ -6025,6 +6030,11 @@
       "CategoryWithTagsDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "number",
+            "nullable": true,
+            "example": 1
+          },
           "category": {
             "type": "string",
             "example": "Frontend"
@@ -6053,6 +6063,7 @@
           }
         },
         "required": [
+          "id",
           "category",
           "icon",
           "count",

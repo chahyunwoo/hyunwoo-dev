@@ -1,12 +1,25 @@
+import type { ApiOkJson } from '@hyunwoo/shared/api'
+import { ENDPOINTS } from '@hyunwoo/shared/api'
 import { adminApi } from '@/shared/api'
 import { LOGIN_PATH } from '@/shared/config'
+import { stripLeadingSlash } from '@/shared/lib'
 import { setAuthenticated } from '../model/auth.store'
 
-interface LoginResponse {
-  message?: string
-  requiresTwoFactor?: boolean
-  twoFactorToken?: string
-}
+/**
+ * 경로는 `ENDPOINTS`에서, 응답 타입은 스펙에서 가져온다.
+ *
+ * **토큰은 응답 본문이 아니라 쿠키로 온다.** 서버가 HttpOnly 쿠키에 실으므로
+ * 본문에는 확인용 메시지만 있다 — 여기서 토큰을 꺼내려 하면 안 된다.
+ */
+
+/**
+ * 로그인 응답은 두 가지다(스펙상 oneOf):
+ *   2FA 꺼짐 → `{ message }`, 쿠키가 설정된다
+ *   2FA 켜짐 → `{ requiresTwoFactor, twoFactorToken }`, 쿠키 없음
+ *
+ * 생성 타입은 이 oneOf를 union으로 준다. 아래에서 `'requiresTwoFactor' in data`로 좁힌다.
+ */
+type LoginResponse = ApiOkJson<typeof ENDPOINTS.auth.login, 'post'>
 
 export interface TwoFactorRequired {
   requiresTwoFactor: true
@@ -14,9 +27,11 @@ export interface TwoFactorRequired {
 }
 
 export async function login(username: string, password: string): Promise<TwoFactorRequired | null> {
-  const data = await adminApi.post('api/auth/login', { json: { username, password } }).json<LoginResponse>()
+  const data = await adminApi
+    .post(stripLeadingSlash(ENDPOINTS.auth.login), { json: { username, password } })
+    .json<LoginResponse>()
 
-  if (data.requiresTwoFactor && data.twoFactorToken) {
+  if ('requiresTwoFactor' in data && data.requiresTwoFactor) {
     return { requiresTwoFactor: true, twoFactorToken: data.twoFactorToken }
   }
 
@@ -25,38 +40,33 @@ export async function login(username: string, password: string): Promise<TwoFact
 }
 
 export async function verifyTwoFactor(twoFactorToken: string, code: string) {
-  await adminApi.post('api/auth/2fa/verify', { json: { twoFactorToken, code } })
+  await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.twoFactorVerify), { json: { twoFactorToken, code } })
   setAuthenticated(true)
 }
 
-export interface TwoFactorSetupResponse {
-  qrCode: string
-  uri: string
-}
-
-export interface TwoFactorStatusResponse {
-  enabled: boolean
-}
+export type TwoFactorSetupResponse = ApiOkJson<typeof ENDPOINTS.auth.twoFactorSetup, 'post'>
+export type TwoFactorStatusResponse = ApiOkJson<typeof ENDPOINTS.auth.twoFactorStatus, 'get'>
+type PreviewTokenResponse = ApiOkJson<typeof ENDPOINTS.auth.previewToken, 'post'>
 
 export async function getTwoFactorStatus(): Promise<TwoFactorStatusResponse> {
-  return adminApi.get('api/auth/2fa/status').json<TwoFactorStatusResponse>()
+  return adminApi.get(stripLeadingSlash(ENDPOINTS.auth.twoFactorStatus)).json<TwoFactorStatusResponse>()
 }
 
 export async function setupTwoFactor(): Promise<TwoFactorSetupResponse> {
-  return adminApi.post('api/auth/2fa/setup').json<TwoFactorSetupResponse>()
+  return adminApi.post(stripLeadingSlash(ENDPOINTS.auth.twoFactorSetup)).json<TwoFactorSetupResponse>()
 }
 
 export async function enableTwoFactor(code: string) {
-  await adminApi.post('api/auth/2fa/enable', { json: { code } })
+  await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.twoFactorEnable), { json: { code } })
 }
 
 export async function disableTwoFactor(code: string) {
-  await adminApi.post('api/auth/2fa/disable', { json: { code } })
+  await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.twoFactorDisable), { json: { code } })
 }
 
 export async function refreshSession() {
   try {
-    await adminApi.post('api/auth/refresh')
+    await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.refresh))
     setAuthenticated(true)
     return true
   } catch {
@@ -67,7 +77,7 @@ export async function refreshSession() {
 
 export async function extendSession() {
   try {
-    await adminApi.post('api/auth/session/extend')
+    await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.sessionExtend))
   } catch {
     // 세션 연장 실패는 무시
   }
@@ -75,7 +85,7 @@ export async function extendSession() {
 
 export async function logout() {
   try {
-    await adminApi.post('api/auth/logout')
+    await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.logout))
   } catch {
     // 로그아웃 API 실패해도 리다이렉트
   } finally {
@@ -86,7 +96,7 @@ export async function logout() {
 
 export async function getPreviewToken(): Promise<string | null> {
   try {
-    const data = await adminApi.post('api/auth/preview-token').json<{ token: string }>()
+    const data = await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.previewToken)).json<PreviewTokenResponse>()
     return data.token
   } catch {
     return null

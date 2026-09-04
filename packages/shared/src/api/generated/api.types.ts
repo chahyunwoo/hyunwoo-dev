@@ -962,10 +962,10 @@ export interface components {
             /** @example google.com */
             source: string;
             /**
-             * @description direct | search | social | other
              * @example search
+             * @enum {string}
              */
-            category: string;
+            category: "direct" | "search" | "social" | "other";
             /** @example 30 */
             count: number;
             /**
@@ -1187,6 +1187,8 @@ export interface components {
             count: number;
         };
         CategoryWithTagsDto: {
+            /** @example 1 */
+            id: number | null;
             /** @example Frontend */
             category: string;
             /**
