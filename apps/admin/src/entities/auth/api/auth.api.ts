@@ -94,9 +94,18 @@ export async function logout() {
   }
 }
 
-export async function getPreviewToken(): Promise<string | null> {
+/**
+ * 프리뷰 토큰을 발급받는다.
+ *
+ * **`slug` 는 필수다.** 서버가 토큰을 그 글에 묶어 두므로, 토큰이 유출돼도
+ * 열람 범위가 해당 글 하나로 제한된다. 예전에는 slug 없이 발급해 토큰 하나로
+ * 모든 비공개 글을 열 수 있었다.
+ */
+export async function getPreviewToken(slug: string): Promise<string | null> {
   try {
-    const data = await adminApi.post(stripLeadingSlash(ENDPOINTS.auth.previewToken)).json<PreviewTokenResponse>()
+    const data = await adminApi
+      .post(stripLeadingSlash(ENDPOINTS.auth.previewToken), { json: { slug } })
+      .json<PreviewTokenResponse>()
     return data.token
   } catch {
     return null
