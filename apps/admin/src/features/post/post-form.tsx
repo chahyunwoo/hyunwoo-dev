@@ -59,9 +59,21 @@ export function PostForm({ defaultValues, onSubmit, isPending, mode, slug, rende
   const [thumbnailToken, setThumbnailToken] = useState('')
   const [previewToken, setPreviewToken] = useState<string | null>(null)
 
+  // 토큰은 slug 에 묶여 발급되므로 slug 가 정해진 뒤에만 받는다.
+  // (프리뷰 버튼 자체가 mode === 'edit' && slug 일 때만 노출된다)
   useEffect(() => {
-    getPreviewToken().then(setPreviewToken)
-  }, [])
+    if (!slug) {
+      setPreviewToken(null)
+      return
+    }
+    let cancelled = false
+    getPreviewToken(slug).then(token => {
+      if (!cancelled) setPreviewToken(token)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [slug])
 
   const [categoryModalOpened, setCategoryModalOpened] = useState(false)
 
