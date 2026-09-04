@@ -1,5 +1,5 @@
-import { ENDPOINTS } from '../api/endpoints'
-import { API_URL, DEFAULT_HEADERS } from '../config/api.config'
+import { ENDPOINTS } from './api/endpoints'
+import { API_URL, DEFAULT_HEADERS } from './config/api.config'
 
 /**
  * 방문 기록을 수집 API로 보낸다.
