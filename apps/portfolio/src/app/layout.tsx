@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { PageviewTracker } from '@/shared/lib'
 import { LoadingScreen, ScrollBackground, StarsBackground } from '@/shared/ui'
 import './globals.css'
 
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               'window.history.scrollRestoration="manual";window.scrollTo(0,0);document.documentElement.style.overflow="hidden";document.documentElement.style.touchAction="none";',
           }}
         />
+        <PageviewTracker />
         <LoadingScreen />
         <StarsBackground />
         <ScrollBackground>{children}</ScrollBackground>
