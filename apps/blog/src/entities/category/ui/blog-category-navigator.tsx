@@ -3,16 +3,10 @@
 import { LINK_TYPES } from '@hyunwoo/shared/config'
 import { getParamFromHref } from '@hyunwoo/shared/lib'
 import type { CategoryData, LinkType } from '@hyunwoo/shared/types'
-import type { LucideIcon } from 'lucide-react'
-import * as icons from 'lucide-react'
+import { getIcon } from '@hyunwoo/ui'
+import { LayoutGrid } from 'lucide-react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { ActiveLink } from './active-link'
-
-function getIcon(name?: string): LucideIcon {
-  if (!name) return icons.Folder
-  const icon = (icons as unknown as Record<string, LucideIcon>)[name]
-  return icon ?? icons.Folder
-}
 
 interface BlogCategoryNavigatorProps {
   categories: CategoryData[]
@@ -54,7 +48,7 @@ export function BlogCategoryNavigator({ categories, variant, closeMenu = () => {
       <ActiveLink
         href="/"
         title="ALL"
-        icon={icons.LayoutGrid}
+        icon={LayoutGrid}
         className="w-full justify-between px-3 py-1.5"
         count={totalPostCount}
         onClick={closeMenu}

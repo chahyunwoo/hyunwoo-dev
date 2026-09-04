@@ -49,4 +49,13 @@ export const ICON_LIST = [
   'Navigation',
   'Wifi',
   'Radio',
+
+  // 소셜 링크용. 어드민 포트폴리오의 SocialIconPicker 가 이 이름들을 쓰는데
+  // 목록에 없어서 전부 Folder 폴백으로 렌더되고 있었다(#138 작업 중 실측).
+  'Github',
+  'Instagram',
+  'Linkedin',
+  'Twitter',
+  'Youtube',
+  'Facebook',
 ] as const
