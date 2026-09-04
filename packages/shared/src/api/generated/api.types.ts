@@ -1348,10 +1348,15 @@ export interface components {
             label: string;
         };
         SocialLinkDto: {
-            /** @example GitHub */
+            /** @example Github */
             name: string;
             /** @example https://github.com/chahyunwoo */
             href: string;
+            /**
+             * @description lucide 아이콘 이름(대소문자 무관)
+             * @example Github
+             */
+            icon: string;
         };
         ProfileDto: {
             /** @example 차현우 */

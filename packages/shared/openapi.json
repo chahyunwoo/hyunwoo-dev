@@ -6369,16 +6369,22 @@
         "properties": {
           "name": {
             "type": "string",
-            "example": "GitHub"
+            "example": "Github"
           },
           "href": {
             "type": "string",
             "example": "https://github.com/chahyunwoo"
+          },
+          "icon": {
+            "type": "string",
+            "example": "Github",
+            "description": "lucide 아이콘 이름(대소문자 무관)"
           }
         },
         "required": [
           "name",
-          "href"
+          "href",
+          "icon"
         ]
       },
       "ProfileDto": {
