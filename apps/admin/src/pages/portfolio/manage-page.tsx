@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardContent,
+  getIcon,
   Select,
   SelectContent,
   SelectItem,
@@ -46,7 +47,6 @@ import { adminApi } from '@/shared/api'
 import type { LocaleCode } from '@/shared/config'
 import { LOCALE_TABS } from '@/shared/config'
 import { useTranslationForm } from '@/shared/hooks'
-import { getIcon } from '@/shared/lib'
 import { AdminInput, AdminLabel, AdminTextarea, FileInput, LocaleTabs, useConfirmStore } from '@/shared/ui'
 
 const SOCIAL_ICONS = ['Github', 'Instagram', 'Linkedin', 'Twitter', 'Mail', 'Globe', 'Youtube', 'Facebook'] as const

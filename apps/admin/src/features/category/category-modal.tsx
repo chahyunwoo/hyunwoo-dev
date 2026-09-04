@@ -4,6 +4,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  getIcon,
+  ICON_LIST,
   Separator,
   Tooltip,
   TooltipContent,
@@ -20,7 +22,6 @@ import {
   useDeleteCategory,
   useUpdateCategory,
 } from '@/entities/category'
-import { getIcon, ICON_LIST } from '@/shared/lib'
 import { AdminInput, AdminLabel, useConfirmStore } from '@/shared/ui'
 
 interface CategoryModalProps {

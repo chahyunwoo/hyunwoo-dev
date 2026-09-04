@@ -45,6 +45,8 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './dropdown-menu'
+export { getIcon } from './get-icon'
+export { ICON_LIST } from './icon-list'
 export { Input } from './input'
 export { Label } from './label'
 export { Popover, PopoverContent, PopoverTrigger } from './popover'
