@@ -824,6 +824,12 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        HealthResponseDto: {
+            /** @example ok */
+            status: string;
+            /** Format: date-time */
+            timestamp: string;
+        };
         TrackPageViewDto: {
             /** @example /blog/my-post */
             path: string;
@@ -833,6 +839,204 @@ export interface components {
              */
             appName: "blog" | "portfolio" | "admin";
             referrer?: string;
+        };
+        PostStatsDto: {
+            /** @example 40 */
+            total: number;
+            /** @example 38 */
+            published: number;
+            /** @example 2 */
+            draft: number;
+        };
+        CategoryStatDto: {
+            /** @example Frontend */
+            category: string;
+            /** @example 8 */
+            count: number;
+        };
+        DashboardPostDto: {
+            /** @example abc123 */
+            slug: string;
+            /** @example 글 제목 */
+            title: string;
+            /** @example Frontend */
+            category: string | null;
+            /** @example 128 */
+            viewCount: number;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        RecentlyUpdatedPostDto: {
+            /** @example abc123 */
+            slug: string;
+            /** @example 글 제목 */
+            title: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DashboardDto: {
+            postStats: components["schemas"]["PostStatsDto"];
+            categoryStats: components["schemas"]["CategoryStatDto"][];
+            recentPosts: components["schemas"]["DashboardPostDto"][];
+            recentlyUpdated: components["schemas"]["RecentlyUpdatedPostDto"][];
+        };
+        PopularPostDto: {
+            /** @example abc123 */
+            slug: string;
+            /** @example 글 제목 */
+            title: string;
+            /** @example Frontend */
+            category: string | null;
+            /** @example 128 */
+            viewCount: number;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        DailyViewDto: {
+            /**
+             * @description YYYY-MM-DD
+             * @example 2026-09-04
+             */
+            date: string;
+            /** @example 42 */
+            count: number;
+        };
+        VisitorStatsDto: {
+            /** @example 991 */
+            totalViews: number;
+            /**
+             * @description IP 기준 고유 방문자
+             * @example 210
+             */
+            uniqueVisitors: number;
+            /** @description 날짜 오름차순 */
+            daily: components["schemas"]["DailyViewDto"][];
+        };
+        VisitDto: {
+            /**
+             * @description URL 디코딩된 경로
+             * @example /blog/abc123
+             */
+            path: string;
+            /**
+             * @description 도메인만 남긴다
+             * @example google.com
+             */
+            referrer: string | null;
+            /** Format: date-time */
+            visitedAt: string;
+        };
+        VisitorTimelineDto: {
+            /**
+             * @description 마스킹된 IP
+             * @example 123.45.*.*
+             */
+            ipAddress: string;
+            /** @example Seoul */
+            city: string | null;
+            /** @example KR */
+            country: string | null;
+            /** @example false */
+            isBot: boolean;
+            /** @example 5 */
+            totalViews: number;
+            /** @description 최근 방문 우선 */
+            visits: components["schemas"]["VisitDto"][];
+        };
+        ReferrerSummaryDto: {
+            /** @example 100 */
+            total: number;
+            /**
+             * @description 리퍼러 없음
+             * @example 40
+             */
+            direct: number;
+            /** @example 30 */
+            search: number;
+            /** @example 20 */
+            social: number;
+            /** @example 10 */
+            other: number;
+        };
+        ReferrerItemDto: {
+            /** @example google.com */
+            source: string;
+            /**
+             * @description direct | search | social | other
+             * @example search
+             */
+            category: string;
+            /** @example 30 */
+            count: number;
+            /**
+             * @description 전체 대비 백분율(정수)
+             * @example 30
+             */
+            percentage: number;
+        };
+        ReferrerStatsDto: {
+            summary: components["schemas"]["ReferrerSummaryDto"];
+            /** @description count 내림차순 */
+            referrers: components["schemas"]["ReferrerItemDto"][];
+        };
+        MemoryUsageDto: {
+            /**
+             * @description 바이트
+             * @example 52428800
+             */
+            heapUsed: number;
+            /** @example 83886080 */
+            heapTotal: number;
+            /**
+             * @description Resident Set Size
+             * @example 125829120
+             */
+            rss: number;
+        };
+        SystemStatusDto: {
+            /**
+             * @description 프로세스 기동 후 경과 밀리초
+             * @example 86400000
+             */
+            uptime: number;
+            /** @example 1d 0h 0m */
+            uptimeFormatted: string;
+            /**
+             * @description connected | disconnected
+             * @example connected
+             */
+            database: string;
+            memory: components["schemas"]["MemoryUsageDto"];
+        };
+        AdminLogDto: {
+            /** @example 1 */
+            id: number;
+            /**
+             * @description create | update | delete 등
+             * @example create
+             */
+            action: string;
+            /** @example post */
+            entity: string;
+            /** @example abc123 */
+            entityId: string | null;
+            /** @description 글 제목 등 부가 정보 */
+            detail: string | null;
+            /** @example admin */
+            username: string;
+            ipAddress: string | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        MessageResponseDto: {
+            /** @example Login successful */
+            message: string;
+        };
+        TwoFactorRequiredDto: {
+            /** @example true */
+            requiresTwoFactor: boolean;
+            /** @description 5분간 유효. 2fa/verify에 그대로 넘긴다. */
+            twoFactorToken: string;
         };
         LoginDto: {
             /** @example admin */
@@ -846,9 +1050,55 @@ export interface components {
             /** @example 123456 */
             code: string;
         };
+        TwoFactorStatusDto: {
+            /** @example false */
+            enabled: boolean;
+        };
+        TwoFactorSetupDto: {
+            /** @description data URI 형태의 QR 이미지 (신규 설정 시) */
+            qrCode?: string;
+            /** @description otpauth:// URI (신규 설정 시) */
+            uri?: string;
+            /**
+             * @description 이미 설정돼 있을 때만
+             * @example true
+             */
+            configured?: boolean;
+            /** @example 2FA is already configured */
+            message?: string;
+        };
         Enable2faDto: {
             /** @example 123456 */
             code: string;
+        };
+        TwoFactorToggleDto: {
+            /** @example true */
+            enabled: boolean;
+            /**
+             * @description 이미 그 상태일 때만
+             * @example 2FA is not enabled
+             */
+            message?: string;
+        };
+        SessionExtendDto: {
+            /**
+             * @description 밀리초
+             * @example 3600000
+             */
+            timeout: number;
+        };
+        PreviewTokenDto: {
+            /** @description 미리보기 URL의 쿼리로 붙인다 */
+            token: string;
+            /**
+             * @description 초 단위
+             * @example 1800
+             */
+            expiresIn: number;
+        };
+        PreviewValidDto: {
+            /** @example true */
+            valid: boolean;
         };
         PostTagDto: {
             /** @example 1 */
@@ -888,6 +1138,29 @@ export interface components {
             updatedAt: string;
             tags: components["schemas"]["PostTagDto"][];
         };
+        PostSearchResponseDto: {
+            posts: components["schemas"]["PostSummaryDto"][];
+            /**
+             * @description 검색 조건에 맞는 전체 건수
+             * @example 3
+             */
+            total: number;
+            /**
+             * @description 검색어(요청의 q를 그대로 되돌려준다)
+             * @example react
+             */
+            query: string;
+            /**
+             * @description 카테고리명을 키로 묶은 결과. 카테고리가 없는 글은 "Uncategorized"로 묶인다.
+             * @example {
+             *       "Frontend": [],
+             *       "Backend": []
+             *     }
+             */
+            grouped: {
+                [key: string]: components["schemas"]["PostSummaryDto"][];
+            };
+        };
         PostListResponseDto: {
             posts: components["schemas"]["PostSummaryDto"][];
             /**
@@ -902,6 +1175,38 @@ export interface components {
             /** @example 4 */
             totalPages: number;
         };
+        TagCountDto: {
+            /** @example React */
+            name: string;
+            /** @example react */
+            slug: string;
+            /**
+             * @description 이 카테고리 안에서 이 태그가 붙은 글 수
+             * @example 12
+             */
+            count: number;
+        };
+        CategoryWithTagsDto: {
+            /** @example Frontend */
+            category: string;
+            /**
+             * @description lucide 아이콘 이름
+             * @example Monitor
+             */
+            icon: string;
+            /**
+             * @description 이 카테고리의 발행된 글 수
+             * @example 8
+             */
+            count: number;
+            /**
+             * @description 최근 기간 내 새 글이 있는지
+             * @example true
+             */
+            recent: boolean;
+            /** @description count 내림차순 */
+            tags: components["schemas"]["TagCountDto"][];
+        };
         CreateCategoryDto: {
             /** @example Frontend */
             name: string;
@@ -912,6 +1217,71 @@ export interface components {
             icon?: string;
             /** @default 0 */
             sortOrder: number;
+        };
+        CategoryDto: {
+            /** @example 1 */
+            id: number;
+            /** @example Frontend */
+            name: string;
+            /**
+             * @description lucide 아이콘 이름
+             * @example Monitor
+             */
+            icon: string;
+            /** @example 1 */
+            sortOrder: number;
+        };
+        TagListResponseDto: {
+            /** @description 글 수 내림차순. 참조가 0인 태그는 제외된다. */
+            tags: components["schemas"]["TagCountDto"][];
+            /**
+             * @description 실제로 글에 붙어 있는 태그의 총 개수
+             * @example 75
+             */
+            total: number;
+        };
+        PostDetailDto: {
+            /** @example 1 */
+            id: number;
+            /** @example Next.js 15 App Router 완전 정복 */
+            title: string;
+            /** @example nextjs-15-app-router */
+            slug: string;
+            /** @description 미입력 시 content에서 자동 추출 */
+            description: string | null;
+            /** @example https://assets.chahyunwoo.dev/thumbnail/example.png */
+            thumbnailUrl: string | null;
+            /** @example Frontend */
+            category: string | null;
+            /** @example true */
+            published: boolean;
+            /** Format: date-time */
+            publishedAt: string | null;
+            /**
+             * @description 분 단위 예상 읽기 시간
+             * @example 5
+             */
+            readingTime: number;
+            /** @example 128 */
+            viewCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            tags: components["schemas"]["PostTagDto"][];
+            /**
+             * @description MDX 원문
+             * @example # 제목
+             *
+             *     본문입니다.
+             */
+            content: string;
+        };
+        RelatedPostsResponseDto: {
+            /** @description 태그가 겹치는 글 (겹친 수 내림차순) */
+            related: components["schemas"]["PostSummaryDto"][];
+            /** @description related가 목표 수에 못 미칠 때 최신 글로 채운 분 */
+            recommended: components["schemas"]["PostSummaryDto"][];
         };
         CreatePostDto: {
             /** @example Next.js 15 App Router 완전 정복 */
@@ -965,21 +1335,301 @@ export interface components {
              */
             tags?: string[];
         };
+        UploadImageResponseDto: {
+            /** @example https://assets.chahyunwoo.dev/blog/temp/abc123.png */
+            url: string;
+        };
+        LocaleDto: {
+            /** @example 1 */
+            id: number;
+            /** @example ko */
+            code: string;
+            /** @example 한국어 */
+            label: string;
+        };
+        SocialLinkDto: {
+            /** @example Github */
+            name: string;
+            /** @example https://github.com/chahyunwoo */
+            href: string;
+            /**
+             * @description lucide 아이콘 이름(대소문자 무관)
+             * @example Github
+             */
+            icon: string;
+        };
+        ProfileDto: {
+            /** @example 차현우 */
+            name: string;
+            /** @example 서울, 대한민국 */
+            location: string;
+            imageUrl: string | null;
+            iconUrl: string | null;
+            socialLinks: components["schemas"]["SocialLinkDto"][];
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example Full-Stack Developer
+             */
+            jobTitle: string;
+            /** @description 문단 배열. 번역이 없으면 빈 배열 */
+            introduction: string[];
+        };
+        ProfileTranslationDto: {
+            /** @example ko */
+            locale: string;
+            /** @example Full-Stack Developer */
+            jobTitle: string;
+            introduction: string[];
+        };
+        ProfileWithTranslationsDto: {
+            /** @example 차현우 */
+            name: string;
+            /** @example 서울, 대한민국 */
+            location: string;
+            imageUrl: string | null;
+            iconUrl: string | null;
+            socialLinks: components["schemas"]["SocialLinkDto"][];
+            translations: components["schemas"]["ProfileTranslationDto"][];
+        };
+        ExperienceDto: {
+            /** @example 1 */
+            id: number;
+            /** Format: date-time */
+            startDate: string | null;
+            /** Format: date-time */
+            endDate: string | null;
+            /** @example false */
+            isCurrent: boolean;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example 회사명
+             */
+            title: string;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example Backend Developer
+             */
+            role: string;
+            /** @description 번역이 없으면 빈 배열 */
+            responsibilities: string[];
+        };
+        ProjectDto: {
+            /** @example 1 */
+            id: number;
+            demoUrl: string | null;
+            repoUrl: string | null;
+            techStack: string[];
+            /** @example false */
+            featured: boolean;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example 프로젝트명
+             */
+            title: string;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example 설명
+             */
+            description: string;
+        };
+        SkillItemDto: {
+            /** @example 1 */
+            id: number;
+            /** @example TypeScript */
+            name: string;
+            /**
+             * @description 0-100
+             * @example 90
+             */
+            proficiency: number;
+            description: string | null;
+        };
+        SkillGroupDto: {
+            /** @example Frontend */
+            category: string;
+            /** @description sortOrder 오름차순 */
+            items: components["schemas"]["SkillItemDto"][];
+        };
+        WorkDto: {
+            /** @example 1 */
+            id: number;
+            /**
+             * @description company | side | freelance 등
+             * @example company
+             */
+            type: string;
+            /** Format: date-time */
+            startDate: string | null;
+            /** Format: date-time */
+            endDate: string | null;
+            /** @example false */
+            isCurrent: boolean;
+            techStack: string[];
+            demoUrl: string | null;
+            repoUrl: string | null;
+            /** @example false */
+            featured: boolean;
+            /**
+             * @description title과 featured로 서버에서 생성한 그라디언트 색. DB 값이 아니다.
+             * @example [
+             *       "#4F46E5",
+             *       "#7C3AED"
+             *     ]
+             */
+            gradientColors: string[];
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example 프로젝트명
+             */
+            title: string;
+            /** @description 번역이 없으면 null */
+            role: string | null;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example 한 줄 요약
+             */
+            summary: string;
+            /** @description MDX 본문. 번역이 없으면 빈 문자열 */
+            content: string;
+            /** @description 번역이 없으면 빈 배열 */
+            highlights: string[];
+        };
+        WorkTranslationDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 1 */
+            workId: number;
+            /** @example ko */
+            locale: string;
+            /** @example 프로젝트명 */
+            title: string;
+            role: string | null;
+            /** @example 한 줄 요약 */
+            summary: string;
+            /** @description MDX 본문 */
+            content: string;
+            highlights: string[];
+        };
+        WorkDetailDto: {
+            /** @example 1 */
+            id: number;
+            /** @example company */
+            type: string;
+            /** Format: date-time */
+            startDate: string | null;
+            /** Format: date-time */
+            endDate: string | null;
+            /** @example false */
+            isCurrent: boolean;
+            techStack: string[];
+            demoUrl: string | null;
+            repoUrl: string | null;
+            /** @example false */
+            featured: boolean;
+            /** @example 0 */
+            sortOrder: number;
+            translations: components["schemas"]["WorkTranslationDto"][];
+            /**
+             * @description title과 featured로 서버에서 생성한 그라디언트 색. DB 값이 아니다.
+             * @example [
+             *       "#4F46E5",
+             *       "#7C3AED"
+             *     ]
+             */
+            gradientColors: string[];
+        };
+        ExperienceTranslationDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 1 */
+            experienceId: number;
+            /** @example ko */
+            locale: string;
+            /** @example 회사명 */
+            title: string;
+            /** @example Backend Developer */
+            role: string;
+            responsibilities: string[];
+        };
+        ExperienceRecordDto: {
+            /** @example 1 */
+            id: number;
+            /** Format: date-time */
+            startDate: string | null;
+            /** Format: date-time */
+            endDate: string | null;
+            /** @example false */
+            isCurrent: boolean;
+            /** @example 0 */
+            sortOrder: number;
+            translations: components["schemas"]["ExperienceTranslationDto"][];
+        };
+        ProjectTranslationDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 1 */
+            projectId: number;
+            /** @example ko */
+            locale: string;
+            /** @example 프로젝트명 */
+            title: string;
+            /** @example 설명 */
+            description: string;
+        };
+        ProjectRecordDto: {
+            /** @example 1 */
+            id: number;
+            demoUrl: string | null;
+            repoUrl: string | null;
+            techStack: string[];
+            /** @example false */
+            featured: boolean;
+            /** @example 0 */
+            sortOrder: number;
+            translations: components["schemas"]["ProjectTranslationDto"][];
+        };
+        EducationTranslationDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 1 */
+            educationId: number;
+            /** @example ko */
+            locale: string;
+            /** @example ○○대학교 */
+            institution: string;
+            /** @example 컴퓨터공학 학사 */
+            degree: string;
+        };
+        EducationRecordDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 2018.03 - 2022.02 */
+            period: string;
+            /** @example 0 */
+            sortOrder: number;
+            translations: components["schemas"]["EducationTranslationDto"][];
+        };
+        EducationDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 2018.03 - 2022.02 */
+            period: string;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example ○○대학교
+             */
+            institution: string;
+            /**
+             * @description 번역이 없으면 빈 문자열
+             * @example 컴퓨터공학 학사
+             */
+            degree: string;
+        };
         CreateLocaleDto: {
             /** @example zh */
             code: string;
             /** @example 中文 */
             label: string;
-        };
-        SocialLinkDto: {
-            name: string;
-            href: string;
-            icon?: string;
-        };
-        ProfileTranslationDto: {
-            locale: string;
-            jobTitle: string;
-            introduction: string[];
         };
         UpdateProfileDto: {
             name?: string;
@@ -989,11 +1639,9 @@ export interface components {
             socialLinks?: components["schemas"]["SocialLinkDto"][];
             translations?: components["schemas"]["ProfileTranslationDto"][];
         };
-        ExperienceTranslationDto: {
-            locale: string;
-            title: string;
-            role: string;
-            responsibilities: string[];
+        UploadUrlResponseDto: {
+            /** @example https://assets.chahyunwoo.dev/profile/image/abc.png */
+            url: string;
         };
         CreateExperienceDto: {
             /** @default 0 */
@@ -1012,11 +1660,6 @@ export interface components {
             /** @default false */
             isCurrent: boolean;
             translations?: components["schemas"]["ExperienceTranslationDto"][];
-        };
-        ProjectTranslationDto: {
-            locale: string;
-            title: string;
-            description?: string;
         };
         CreateProjectDto: {
             /** @default 0 */
@@ -1047,6 +1690,19 @@ export interface components {
             proficiency: number;
             description?: string;
         };
+        SkillRecordDto: {
+            /** @example 1 */
+            id: number;
+            /** @example Frontend */
+            category: string;
+            /** @example TypeScript */
+            name: string;
+            /** @example 90 */
+            proficiency: number;
+            description: string | null;
+            /** @example 0 */
+            sortOrder: number;
+        };
         UpdateSkillDto: {
             category?: string;
             name?: string;
@@ -1055,11 +1711,6 @@ export interface components {
             /** @default 0 */
             proficiency: number;
             description?: string;
-        };
-        EducationTranslationDto: {
-            locale: string;
-            institution: string;
-            degree: string;
         };
         CreateEducationDto: {
             period: string;
@@ -1072,14 +1723,6 @@ export interface components {
             /** @default 0 */
             sortOrder: number;
             translations?: components["schemas"]["EducationTranslationDto"][];
-        };
-        WorkTranslationDto: {
-            locale: string;
-            title: string;
-            role?: string;
-            summary: string;
-            content: string;
-            highlights?: string[];
         };
         CreateWorkDto: {
             /** @enum {string} */
@@ -1095,6 +1738,26 @@ export interface components {
             repoUrl?: string;
             /** @default false */
             featured: boolean;
+            translations: components["schemas"]["WorkTranslationDto"][];
+        };
+        WorkRecordDto: {
+            /** @example 1 */
+            id: number;
+            /** @example company */
+            type: string;
+            /** Format: date-time */
+            startDate: string | null;
+            /** Format: date-time */
+            endDate: string | null;
+            /** @example false */
+            isCurrent: boolean;
+            techStack: string[];
+            demoUrl: string | null;
+            repoUrl: string | null;
+            /** @example false */
+            featured: boolean;
+            /** @example 0 */
+            sortOrder: number;
             translations: components["schemas"]["WorkTranslationDto"][];
         };
         UpdateWorkDto: {
@@ -1123,6 +1786,28 @@ export interface components {
             /** @example Hello, I would like to discuss... */
             message: string;
         };
+        ContactResultDto: {
+            /** @example true */
+            success: boolean;
+            /** @example Message sent successfully */
+            message: string;
+        };
+        ContactMessageDto: {
+            /** @example 1 */
+            id: number;
+            /** @example 홍길동 */
+            name: string;
+            /** @example someone@example.com */
+            email: string;
+            /** @example 협업 문의 */
+            subject: string | null;
+            /** @example 문의 내용입니다. */
+            message: string;
+            /** @example false */
+            read: boolean;
+            /** Format: date-time */
+            createdAt: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -1145,7 +1830,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["HealthResponseDto"];
+                };
             };
         };
     };
@@ -1183,7 +1870,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["DashboardDto"];
+                };
             };
         };
     };
@@ -1203,7 +1892,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["PopularPostDto"][];
+                };
             };
         };
     };
@@ -1223,7 +1914,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["VisitorStatsDto"];
+                };
             };
         };
     };
@@ -1243,7 +1936,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["VisitorTimelineDto"][];
+                };
             };
         };
     };
@@ -1263,7 +1958,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["ReferrerStatsDto"];
+                };
             };
         };
     };
@@ -1280,7 +1977,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["SystemStatusDto"];
+                };
             };
         };
     };
@@ -1299,7 +1998,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["AdminLogDto"][];
+                };
             };
         };
     };
@@ -1316,6 +2017,15 @@ export interface operations {
             };
         };
         responses: {
+            /** @description 2FA가 꺼져 있으면 쿠키를 설정하고 message만, 켜져 있으면 twoFactorToken을 돌려준다. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageResponseDto"] | components["schemas"]["TwoFactorRequiredDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -1371,6 +2081,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageResponseDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -1422,6 +2140,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TwoFactorStatusDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -1453,6 +2179,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TwoFactorSetupDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -1488,6 +2222,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TwoFactorToggleDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -1543,6 +2285,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TwoFactorToggleDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -1594,6 +2344,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MessageResponseDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -1663,7 +2421,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["SessionExtendDto"];
+                };
             };
         };
     };
@@ -1676,11 +2436,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            200: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["PreviewTokenDto"];
+                };
             };
         };
     };
@@ -1699,7 +2461,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["PreviewValidDto"];
+                };
             };
         };
     };
@@ -1717,6 +2481,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostSearchResponseDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -1776,6 +2548,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostDetailDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -1853,7 +2633,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["PostSummaryDto"][];
+                };
             };
         };
     };
@@ -1870,7 +2652,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["CategoryWithTagsDto"][];
+                };
             };
         };
     };
@@ -1891,7 +2675,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["CategoryDto"];
+                };
             };
         };
     };
@@ -1914,7 +2700,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["CategoryDto"];
+                };
             };
         };
     };
@@ -1952,7 +2740,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["TagListResponseDto"];
+                };
             };
         };
     };
@@ -1967,6 +2757,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostDetailDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -2004,6 +2802,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostDetailDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -2057,6 +2863,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -2112,6 +2925,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostDetailDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -2165,6 +2986,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RelatedPostsResponseDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -2196,6 +3025,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadImageResponseDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2251,7 +3088,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["LocaleDto"][];
+                };
             };
         };
     };
@@ -2268,6 +3107,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LocaleDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2341,6 +3188,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2396,6 +3251,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileWithTranslationsDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -2427,6 +3290,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileWithTranslationsDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -2460,6 +3331,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExperienceDto"][];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2495,6 +3374,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExperienceRecordDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2549,6 +3436,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectDto"][];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2584,6 +3479,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectRecordDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2639,7 +3542,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["SkillGroupDto"][];
+                };
             };
         };
     };
@@ -2656,6 +3561,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SkillRecordDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2710,6 +3623,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkDto"][];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2745,6 +3666,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkRecordDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -2798,6 +3727,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkDetailDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -2835,6 +3772,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkRecordDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -2888,6 +3833,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -2941,6 +3893,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExperienceRecordDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -2978,6 +3938,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExperienceRecordDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3031,6 +3999,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3084,6 +4059,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectRecordDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -3121,6 +4104,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectRecordDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3174,6 +4165,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3227,6 +4225,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EducationRecordDto"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -3264,6 +4270,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EducationRecordDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3317,6 +4331,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3370,6 +4391,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EducationDto"][];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -3405,6 +4434,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EducationRecordDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -3458,6 +4495,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3509,6 +4553,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadUrlResponseDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -3560,6 +4612,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadUrlResponseDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -3617,6 +4677,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SkillRecordDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3670,6 +4738,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3725,6 +4800,14 @@ export interface operations {
             };
         };
         responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactResultDto"];
+                };
+            };
             /** @description Bad Request */
             400: {
                 headers: {
@@ -3758,6 +4841,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactMessageDto"][];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3791,6 +4882,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactMessageDto"];
+                };
+            };
             /** @description Unauthorized */
             401: {
                 headers: {
@@ -3844,6 +4943,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Unauthorized */
             401: {
                 headers: {

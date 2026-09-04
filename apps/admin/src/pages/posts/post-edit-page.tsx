@@ -31,9 +31,11 @@ export function PostEditPage({ slug }: PostEditPageProps) {
       mode="edit"
       defaultValues={{
         title: post.title,
-        description: post.description,
+        // description·category는 응답에서 null일 수 있다. 수동 타입이 string이라고
+        // 선언해 두어 지금까지 드러나지 않았고, 생성 타입으로 바꾸며 잡혔다.
+        description: post.description ?? '',
         content: post.content ?? '',
-        category: post.category,
+        category: post.category ?? '',
         tags: post.tags.map(t => t.name),
         thumbnailUrl: post.thumbnailUrl ?? '',
         published: post.published,
