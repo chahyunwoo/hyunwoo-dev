@@ -17,7 +17,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 글이 하나도 없는 sitemap이 배포된다. 그 상태가 크롤러에게 노출되면
   // 색인에서 대량으로 빠지고, 아무 에러도 남지 않아 알아채기까지 오래 걸린다.
   // 발행 글은 항상 1개 이상이므로 0개는 정상 상태가 아니라 장애로 간주한다.
-  if (posts.length === 0) {
+  //
+  // 단, 실제 배포 빌드에서만 막는다. CI의 `pnpm build`는 API 서버 없이 도는
+  // 컴파일 검증이라(워크플로 Build 스텝에 환경변수가 없어 API_URL이
+  // localhost:4000 기본값으로 떨어진다) 글 0개가 정상이다. 여기서 던지면
+  // 실제 장애가 아닌데도 CI가 빨개져 게이트로서 의미가 없어진다.
+  // VERCEL 환경변수는 Vercel 빌드에서만 설정된다.
+  if (posts.length === 0 && process.env.VERCEL) {
     throw new Error(
       '[sitemap] 발행 글이 0개다. 빌드 타임에 API 응답을 받지 못했을 가능성이 높다. ' +
         '빈 sitemap 배포를 막기 위해 빌드를 실패시킨다. ' +
