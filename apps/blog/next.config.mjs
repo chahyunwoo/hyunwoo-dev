@@ -17,19 +17,20 @@ const nextConfig = {
   },
   reactCompiler: true,
   headers: async () => [
-    // sitemap.xml / robots.txt 는 크롤러가 색인 갱신의 기준으로 삼는 파일이라
-    // 아래 일반 규칙(s-maxage=86400)에 걸리면 on-demand revalidate 로 새로 만들어도
-    // CDN 이 최대 24시간 묵은 응답을 계속 내보낸다. 더 짧게 잡고 재검증하게 한다.
-    // 순서 주의: Next 는 먼저 매치된 규칙을 쓰므로 반드시 '/(.*)' 보다 위에 있어야 한다.
-    {
-      source: '/:path(sitemap.xml|robots.txt)',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=0, s-maxage=300, stale-while-revalidate=600',
-        },
-      ],
-    },
+    // NOTE: sitemap.xml / robots.txt 에 짧은 s-maxage 를 따로 주려고 여기에
+    // 별도 규칙을 뒀었으나 **적용되지 않는다**. routes-manifest 에는 정규식까지
+    // 정상 등록되는데(^(?:/(sitemap.xml|robots.txt))(?:/)?$) 실제 응답은 아래
+    // 일반 규칙 값이 나갔다 — app router 의 metadata 라우트(sitemap.ts/robots.ts)가
+    // 자체 Cache-Control 을 설정해 config 의 headers() 를 덮어쓰기 때문이다.
+    // 실측(2026-09-04, 배포 후): curl -sI https://chahyunwoo.dev/sitemap.xml
+    //   -> cache-control: public, max-age=3600, s-maxage=86400, ...
+    // 쿼리스트링으로 캐시 키를 바꿔도 같은 값이라 CDN 캐시 잔존이 아니다.
+    //
+    // 다만 실제 문제(새 글이 sitemap 에 안 뜬다)는 on-demand revalidate 에
+    // revalidatePath('/sitemap.xml') 를 추가해 해결했고, 그쪽이 CDN 캐시도
+    // 함께 무효화하므로 여기서 더 손대지 않는다. metadata 라우트를 Route
+    // Handler 로 바꿔 XML 을 직접 만들면 제어할 수 있지만, 얻는 것에 비해
+    // 깨질 여지가 크다.
     {
       source: '/(.*)',
       headers: [
