@@ -2,14 +2,28 @@ import { apiFetch, ENDPOINTS } from '@hyunwoo/shared/api'
 import { CACHE_TAGS } from '@hyunwoo/shared/config'
 import type { CategoryData, Post, PostMeta } from '@hyunwoo/shared/types'
 import { cache } from 'react'
-import type { ApiCategory, ApiPost, ApiPostsResponse, ApiRelatedResponse, ApiTagsResponse } from '../model'
+import type {
+  ApiCategory,
+  ApiPost,
+  ApiPostDetail,
+  ApiPostsResponse,
+  ApiRelatedResponse,
+  ApiTagsResponse,
+} from '../model'
 
-function toPost(api: ApiPost): Post {
+/**
+ * 목록 요소와 상세를 모두 받는다. 상세에만 `content`(MDX 원문)가 있으므로
+ * 목록에서 온 것은 빈 문자열이 된다.
+ *
+ * `description`·`category`는 응답에서 null일 수 있다. 수동 타입이 `string`이라고
+ * 선언해 두어 지금까지 드러나지 않았고, 생성 타입으로 바꾸며 컴파일 에러로 잡혔다.
+ */
+function toPost(api: ApiPost | ApiPostDetail): Post {
   const meta: PostMeta = {
     title: api.title,
-    description: api.description,
+    description: api.description ?? '',
     date: api.publishedAt ?? api.createdAt,
-    mainTag: api.category,
+    mainTag: api.category ?? '',
     tags: api.tags.map(t => t.name),
     thumbnail: api.thumbnailUrl || '',
     published: api.published,
@@ -18,7 +32,7 @@ function toPost(api: ApiPost): Post {
     updatedAt: api.updatedAt,
   }
 
-  return { meta, content: api.content || '' }
+  return { meta, content: 'content' in api ? (api.content ?? '') : '' }
 }
 
 export interface PaginatedPosts {
