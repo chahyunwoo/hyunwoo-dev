@@ -3,6 +3,7 @@ import { AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { BlogCategoryNavigator, SidebarTagCloud } from '@/entities/category'
 import { getCategoriesWithTags, getRecentPosts, getTagCloud } from '@/entities/post'
+import { OpenSearchButton } from '@/features/search'
 import { Badge, SidebarError } from '@/shared/ui'
 
 export async function BlogSidebar() {
@@ -43,6 +44,11 @@ export async function BlogSidebar() {
             <SidebarTagCloud
               tags={tagData.tags.map(t => [t.name, t.count] as [string, number])}
               totalCount={tagData.total}
+              renderMoreButton={label => (
+                <OpenSearchButton className="text-[11px] text-muted-foreground hover:text-primary transition-colors cursor-pointer underline underline-offset-2">
+                  {label}
+                </OpenSearchButton>
+              )}
             />
           </>
         )

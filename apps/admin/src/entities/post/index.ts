@@ -6,6 +6,5 @@ export {
   usePostDetail,
   usePostList,
   useUpdatePost,
-  useUploadThumbnail,
 } from './api'
 export type { CreatePostBody, PostListParams, UpdatePostBody } from './model'

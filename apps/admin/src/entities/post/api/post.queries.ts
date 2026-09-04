@@ -2,7 +2,7 @@ import type { ApiOkJson } from '@hyunwoo/shared/api'
 import { ENDPOINTS } from '@hyunwoo/shared/api'
 import { toast } from '@hyunwoo/ui'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
-import { adminApi, uploadFile } from '@/shared/api'
+import { adminApi } from '@/shared/api'
 import { queryKeys } from '@/shared/config'
 import { getErrorMessage, stripLeadingSlash } from '@/shared/lib'
 import type { CreatePostBody, PostListParams, UpdatePostBody } from '../model'
@@ -64,25 +64,6 @@ export function useDeletePost() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.posts.all })
       toast.success('포스트가 삭제되었습니다.')
-    },
-    onError: async e => {
-      toast.error(await getErrorMessage(e))
-    },
-  })
-}
-
-export function useUploadThumbnail(slug: string) {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: (file: File) => {
-      const formData = new FormData()
-      formData.append('thumbnail', file)
-      return uploadFile<{ thumbnailUrl: string }>(`api/blog/posts/${slug}/thumbnail`, formData)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.posts.detail(slug) })
-      toast.success('썸네일이 업로드되었습니다.')
     },
     onError: async e => {
       toast.error(await getErrorMessage(e))
