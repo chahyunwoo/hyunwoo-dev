@@ -976,6 +976,16 @@
       "post": {
         "operationId": "AuthController_createPreviewToken",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePreviewTokenDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "",
@@ -2331,7 +2341,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProfileWithTranslationsDto"
+                  "$ref": "#/components/schemas/ProfileDto"
                 }
               }
             }
@@ -5162,7 +5172,13 @@
         "properties": {
           "status": {
             "type": "string",
-            "example": "ok"
+            "example": "ok",
+            "description": "DB까지 정상이면 'ok', 아니면 'error'"
+          },
+          "database": {
+            "type": "string",
+            "example": "ok",
+            "description": "DB 연결 확인 결과. 'ok' | 'error'"
           },
           "timestamp": {
             "type": "string",
@@ -5171,6 +5187,7 @@
         },
         "required": [
           "status",
+          "database",
           "timestamp"
         ]
       },
@@ -5795,6 +5812,18 @@
         },
         "required": [
           "timeout"
+        ]
+      },
+      "CreatePreviewTokenDto": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "my-post-slug"
+          }
+        },
+        "required": [
+          "slug"
         ]
       },
       "PreviewTokenDto": {

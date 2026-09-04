@@ -3,18 +3,22 @@
 import { cn } from '@hyunwoo/shared/lib'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useSearchStore } from '@/features/search'
 import { Badge } from '@/shared/ui'
 
 interface SidebarTagCloudProps {
   tags: [string, number][]
   totalCount: number
+  /**
+   * 숨겨진 태그 수를 보여주는 "+N more" 자리. 누르면 검색이 열려야 하는데,
+   * 검색 스토어는 features 레이어에 있어 entities 가 직접 구독할 수 없다.
+   * 그래서 렌더할 요소를 위(widgets)에서 받는다.
+   */
+  renderMoreButton?: (label: string) => React.ReactNode
 }
 
-export function SidebarTagCloud({ tags, totalCount }: SidebarTagCloudProps) {
+export function SidebarTagCloud({ tags, totalCount, renderMoreButton }: SidebarTagCloudProps) {
   const searchParams = useSearchParams()
   const currentTag = searchParams.get('tag') || ''
-  const openSearch = useSearchStore(state => state.open)
 
   return (
     <nav>
@@ -40,16 +44,8 @@ export function SidebarTagCloud({ tags, totalCount }: SidebarTagCloudProps) {
           )
         })}
       </div>
-      {totalCount > tags.length && (
-        <div className="flex justify-end px-3 mt-2">
-          <button
-            type="button"
-            onClick={openSearch}
-            className="text-[11px] text-muted-foreground hover:text-primary transition-colors cursor-pointer underline underline-offset-2"
-          >
-            +{totalCount - tags.length} more
-          </button>
-        </div>
+      {totalCount > tags.length && renderMoreButton && (
+        <div className="flex justify-end px-3 mt-2">{renderMoreButton(`+${totalCount - tags.length} more`)}</div>
       )}
     </nav>
   )

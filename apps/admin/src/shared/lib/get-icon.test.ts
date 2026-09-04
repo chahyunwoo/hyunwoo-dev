@@ -1,7 +1,6 @@
+import { getIcon, ICON_LIST } from '@hyunwoo/ui'
 import * as icons from 'lucide-react'
 import { describe, expect, it } from 'vitest'
-import { getIcon } from './get-icon'
-import { ICON_LIST } from './icon-list'
 
 describe('getIcon', () => {
   it('ICON_LIST에 있는 이름은 해당 아이콘 컴포넌트를 돌려준다', () => {
@@ -35,5 +34,15 @@ describe('getIcon', () => {
 
   it('fallback을 지정할 수 있다', () => {
     expect(getIcon('없는이름', icons.Star)).toBe(icons.Star)
+  })
+
+  /**
+   * blog 의 카테고리는 `icon` 이 nullable 이라 `undefined` 가 그대로 들어온다.
+   * 예전에는 blog 가 자체 getIcon 을 따로 두고 있었고, 그쪽은 ICON_LIST 검증
+   * 없이 네임스페이스를 인덱싱해 위의 비아이콘 3종을 그대로 돌려줬다(#138/#124).
+   */
+  it('name 이 undefined 면 fallback 으로 보낸다', () => {
+    expect(getIcon(undefined)).toBe(icons.Folder)
+    expect(getIcon(undefined, icons.Star)).toBe(icons.Star)
   })
 })

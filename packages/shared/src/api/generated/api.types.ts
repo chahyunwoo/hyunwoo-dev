@@ -825,8 +825,16 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         HealthResponseDto: {
-            /** @example ok */
+            /**
+             * @description DB까지 정상이면 'ok', 아니면 'error'
+             * @example ok
+             */
             status: string;
+            /**
+             * @description DB 연결 확인 결과. 'ok' | 'error'
+             * @example ok
+             */
+            database: string;
             /** Format: date-time */
             timestamp: string;
         };
@@ -1086,6 +1094,10 @@ export interface components {
              * @example 3600000
              */
             timeout: number;
+        };
+        CreatePreviewTokenDto: {
+            /** @example my-post-slug */
+            slug: string;
         };
         PreviewTokenDto: {
             /** @description 미리보기 URL의 쿼리로 붙인다 */
@@ -2436,7 +2448,11 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePreviewTokenDto"];
+            };
+        };
         responses: {
             201: {
                 headers: {
@@ -3258,7 +3274,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ProfileWithTranslationsDto"];
+                    "application/json": components["schemas"]["ProfileDto"];
                 };
             };
             /** @description Unauthorized */

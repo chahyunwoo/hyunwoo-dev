@@ -28,7 +28,6 @@ export const ENDPOINTS = {
     tags: '/api/blog/tags',
     postPreview: (slug: string) => `/api/blog/posts/${slug}/preview`,
     images: '/api/blog/images',
-    thumbnail: (slug: string) => `/api/blog/posts/${slug}/thumbnail`,
   },
   portfolio: {
     profile: '/api/portfolio/profile',
