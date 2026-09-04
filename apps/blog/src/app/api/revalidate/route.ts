@@ -37,6 +37,10 @@ export async function POST(request: NextRequest) {
     revalidateTag(CACHE_TAGS.BLOG_TAGS, { expire: 0 })
     revalidateTag(CACHE_TAGS.BLOG_RECENT, { expire: 0 })
     revalidatePath('/')
+    // sitemap.xml은 정적으로 프리렌더되므로 태그 무효화만으로는 갱신되지 않는다.
+    // 이걸 빼면 새 글을 발행해도 재배포 전까지 sitemap에 나타나지 않아
+    // 색인이 늦어진다(실측 2026-09-04: 라이브 sitemap의 글 42개가 빌드 시점 고정).
+    revalidatePath('/sitemap.xml')
 
     if (body.slug) {
       revalidateTag(CACHE_TAGS.BLOG_POST(body.slug), { expire: 0 })
@@ -55,6 +59,8 @@ export async function POST(request: NextRequest) {
     for (const path of ABOUT_PATHS) {
       revalidatePath(path)
     }
+    // about 페이지도 sitemap에 포함되므로 함께 갱신한다.
+    revalidatePath('/sitemap.xml')
   }
 
   return NextResponse.json({ revalidated: true, type: body.type, slug: body.slug ?? null })
