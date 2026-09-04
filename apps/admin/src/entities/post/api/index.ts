@@ -5,5 +5,4 @@ export {
   usePostDetail,
   usePostList,
   useUpdatePost,
-  useUploadThumbnail,
 } from './post.queries'
