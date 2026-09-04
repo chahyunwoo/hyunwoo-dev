@@ -4,7 +4,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { adminApi } from '@/shared/api'
 import { queryKeys } from '@/shared/config'
 import { stripLeadingSlash } from '@/shared/lib'
-import type { Post, PostListParams } from '../model'
+import type { PostListParams } from '../model'
 
 /**
  * 응답 타입을 손으로 선언하지 않고 api-server의 OpenAPI 스펙에서 생성한 타입을 쓴다.
@@ -14,6 +14,12 @@ import type { Post, PostListParams } from '../model'
  * 실제 요청에 쓰는 값과 같은 출처라야, 둘이 갈라질 때 컴파일이 잡아준다.
  */
 type PostListResponse = ApiOkJson<typeof ENDPOINTS.blog.posts, 'get'>
+
+/**
+ * 동적 경로는 `ENDPOINTS.blog.postBySlug`가 함수라 `typeof`로 묶을 수 없다.
+ * 스펙의 경로 템플릿을 그대로 쓴다 — 생성 타입의 키가 `{slug}` 형태이기 때문이다.
+ */
+type PostDetailResponse = ApiOkJson<'/api/blog/posts/{slug}', 'get'>
 
 export function postListOptions(params?: PostListParams) {
   const searchParams = new URLSearchParams()
@@ -30,7 +36,7 @@ export function postListOptions(params?: PostListParams) {
 export function postDetailOptions(slug: string) {
   return queryOptions({
     queryKey: queryKeys.posts.detail(slug),
-    queryFn: () => adminApi.get(stripLeadingSlash(ENDPOINTS.blog.postBySlug(slug))).json<Post>(),
+    queryFn: () => adminApi.get(stripLeadingSlash(ENDPOINTS.blog.postBySlug(slug))).json<PostDetailResponse>(),
     staleTime: 0,
   })
 }
