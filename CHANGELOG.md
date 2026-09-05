@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.1](https://github.com/chahyunwoo/hyunwoo-dev/compare/v2.1.0...v2.1.1) (2026-09-05)
+
+
+### Bug Fixes
+
+* **portfolio:** PDF 이력서에서 긴 제목·기술 배지가 겹치던 문제 ([#145](https://github.com/chahyunwoo/hyunwoo-dev/issues/145)) ([#146](https://github.com/chahyunwoo/hyunwoo-dev/issues/146)) ([8b6d02a](https://github.com/chahyunwoo/hyunwoo-dev/commit/8b6d02a1ac28ce0156ae622c673c4ab641817e6d))
+* **portfolio:** PDF 항목이 페이지 경계에서 쪼개지지 않게 한다 ([#149](https://github.com/chahyunwoo/hyunwoo-dev/issues/149)) ([#150](https://github.com/chahyunwoo/hyunwoo-dev/issues/150)) ([6946e94](https://github.com/chahyunwoo/hyunwoo-dev/commit/6946e94c7aee0c3f0315f903e05ab83d7a501ed0))
+
 ## [2.1.0](https://github.com/chahyunwoo/hyunwoo-dev/compare/v2.0.1...v2.1.0) (2026-09-04)
 
 
