@@ -86,15 +86,21 @@ const createStyles = (locale: string) =>
     workHeader: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'flex-start',
       marginBottom: 2,
     },
     workTitle: {
       fontSize: 11,
       fontWeight: 'bold',
+      // 폭을 주지 않으면 긴 제목이 기간을 밀어내 글자가 겹친다.
+      flexShrink: 1,
+      paddingRight: 8,
     },
     workPeriod: {
       fontSize: 9,
       color: '#888',
+      // 기간은 줄바꿈 없이 한 줄로 유지한다.
+      flexShrink: 0,
     },
     workRole: {
       fontSize: 9,
@@ -119,6 +125,8 @@ const createStyles = (locale: string) =>
       color: '#6c63ff',
       padding: '2 6',
       borderRadius: 3,
+      // 긴 스택 문자열이 배지 밖으로 흘러 다른 배지와 겹치는 것을 막는다.
+      maxWidth: 240,
     },
     skillCategory: {
       marginBottom: 8,
