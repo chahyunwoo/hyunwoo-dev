@@ -203,7 +203,9 @@ function ResumeDocument({ data, locale }: { data: ResumeData; locale: string }) 
             : ''
 
           return (
-            <View key={work.title} style={styles.workItem}>
+            // wrap={false} 가 없으면 항목이 페이지 경계에서 쪼개진다 —
+            // 제목만 다음 장으로 넘어가고 기간이 앞 장에 홀로 남는 일이 실제로 났다.
+            <View key={work.title} style={styles.workItem} wrap={false}>
               <View style={styles.workHeader}>
                 <Text style={styles.workTitle}>{work.title}</Text>
                 <Text style={styles.workPeriod}>{period}</Text>
@@ -227,7 +229,7 @@ function ResumeDocument({ data, locale }: { data: ResumeData; locale: string }) 
 
         <Text style={styles.sectionTitle}>{labels.skills}</Text>
         {data.skills.map(group => (
-          <View key={group.category} style={styles.skillCategory}>
+          <View key={group.category} style={styles.skillCategory} wrap={false}>
             <Text style={styles.skillCategoryName}>{group.category}</Text>
             <View style={styles.skillRow}>
               {group.items.map(skill => (
@@ -241,7 +243,7 @@ function ResumeDocument({ data, locale }: { data: ResumeData; locale: string }) 
 
         <Text style={styles.sectionTitle}>{labels.education}</Text>
         {data.education.map(edu => (
-          <View key={edu.institution} style={styles.educationItem}>
+          <View key={edu.institution} style={styles.educationItem} wrap={false}>
             <View>
               <Text style={styles.workTitle}>{edu.institution}</Text>
               <Text style={styles.workRole}>{edu.degree}</Text>
