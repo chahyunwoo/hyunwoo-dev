@@ -92,15 +92,17 @@ const createStyles = (locale: string) =>
     workTitle: {
       fontSize: 11,
       fontWeight: 'bold',
-      // 폭을 주지 않으면 긴 제목이 기간을 밀어내 글자가 겹친다.
-      flexShrink: 1,
+      // 폭을 나눠 주지 않으면 긴 제목이 기간을 밀어내 글자가 겹친다.
+      // flexShrink 로는 부족했다 — Text 가 줄바꿈 대신 넘쳐 흐른다.
+      // 명시적 width 를 줘야 제목이 두 줄로 감싸진다.
+      width: '76%',
       paddingRight: 8,
     },
     workPeriod: {
       fontSize: 9,
       color: '#888',
-      // 기간은 줄바꿈 없이 한 줄로 유지한다.
-      flexShrink: 0,
+      width: '24%',
+      textAlign: 'right',
     },
     workRole: {
       fontSize: 9,
