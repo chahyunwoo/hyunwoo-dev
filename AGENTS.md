@@ -58,7 +58,9 @@ app → pages → widgets → features → entities → shared
 
 과거 위반 사례와 어디로 옮겼는지는 `docs/FSD-LAYER-VIOLATIONS.md`에 있다.
 
-**이 규칙은 지금 도구로 강제되지 않는다**(biome에 import 경계 룰 없음). 리뷰에서 본다.
+**이 규칙은 `scripts/verify-fsd.mjs` 가 기계로 검사한다** — `.claude/verify.sh` 가 매 턴 돌리므로
+위반이 있으면 턴이 끝나지 않는다(2026-09-17 `fbdf946`, FSD 위반 16건 수정 + 검사기 추가 #160).
+biome 에는 여전히 import 경계 룰이 없다. 리뷰는 검사기가 못 보는 것만 본다.
 
 ## 배포
 
