@@ -1,4 +1,4 @@
-import { getRelatedPosts } from '../api/post.api'
+import { getRelatedPosts } from '@/entities/post/api/post.api'
 import { RelatedPostCard } from './related-post-card'
 
 interface RelatedPostsProps {

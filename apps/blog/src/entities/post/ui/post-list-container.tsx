@@ -1,5 +1,5 @@
+import { getPaginatedPosts } from '@/entities/post/api/post.api'
 import { ApiError } from '@/shared/ui'
-import { getPaginatedPosts } from '../api/post.api'
 import { PostList } from './post-list'
 
 export async function PostListContainer({

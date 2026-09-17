@@ -1,9 +1,6 @@
 import { ENDPOINTS } from '@hyunwoo/shared/api'
 import { toast } from '@hyunwoo/ui'
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
-import { adminApi, uploadFile } from '@/shared/api'
-import { queryKeys } from '@/shared/config'
-import { getErrorMessage, stripLeadingSlash } from '@/shared/lib'
 import type {
   CreateEducationBody,
   CreateExperienceBody,
@@ -24,7 +21,10 @@ import type {
   UpdateWorkBody,
   Work,
   WorkDetail,
-} from '../model'
+} from '@/entities/portfolio/model'
+import { adminApi, uploadFile } from '@/shared/api'
+import { queryKeys } from '@/shared/config'
+import { getErrorMessage, stripLeadingSlash } from '@/shared/lib'
 
 // Works
 export function useWorks(type?: string) {
