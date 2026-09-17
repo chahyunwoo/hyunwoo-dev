@@ -1,9 +1,9 @@
 import type { ApiOkJson } from '@hyunwoo/shared/api'
 import { ENDPOINTS } from '@hyunwoo/shared/api'
+import { setAuthenticated } from '@/entities/auth/model/auth.store'
 import { adminApi } from '@/shared/api'
 import { LOGIN_PATH } from '@/shared/config'
 import { stripLeadingSlash } from '@/shared/lib'
-import { setAuthenticated } from '../model/auth.store'
 
 /**
  * 경로는 `ENDPOINTS`에서, 응답 타입은 스펙에서 가져온다.

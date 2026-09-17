@@ -5,4 +5,5 @@ set -uo pipefail
 cd "$(git rev-parse --show-toplevel)" || exit 0
 pnpm -s typecheck 2>&1 | tail -20 || exit 1
 pnpm -s lint:ci 2>&1 | tail -20 || exit 1
+node scripts/verify-fsd.mjs 2>&1 | tail -10 || exit 1
 pnpm -s test:run 2>&1 | tail -30 || exit 1

@@ -9,7 +9,7 @@ import type {
   ApiPostsResponse,
   ApiRelatedResponse,
   ApiTagsResponse,
-} from '../model'
+} from '@/entities/post/model'
 
 /**
  * 목록 요소와 상세를 모두 받는다. 상세에만 `content`(MDX 원문)가 있으므로

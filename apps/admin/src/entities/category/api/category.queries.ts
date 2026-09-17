@@ -2,10 +2,10 @@ import type { ApiOkJson } from '@hyunwoo/shared/api'
 import { ENDPOINTS } from '@hyunwoo/shared/api'
 import { toast } from '@hyunwoo/ui'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { Category, CreateCategoryBody } from '@/entities/category/model'
 import { adminApi } from '@/shared/api'
 import { queryKeys } from '@/shared/config'
 import { getErrorMessage, stripLeadingSlash } from '@/shared/lib'
-import type { Category, CreateCategoryBody } from '../model'
 
 /**
  * 수정·삭제는 **id**를 쓴다. 이전에는 카테고리 이름을 경로에 넣어 호출했고,

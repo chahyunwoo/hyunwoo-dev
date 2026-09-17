@@ -33,6 +33,7 @@ export function PostMarquee({ posts }: PostMarqueeProps) {
           style={{ animationDuration: duration }}
         >
           {doubled.map((post, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: 같은 목록을 두 번 이어 붙인 마퀴라 post.id 가 반드시 중복된다. 순서가 바뀌지 않으므로 인덱스가 안전한 구분자다
             <a
               key={`${post.id}-${i}`}
               href={`${BASE_URL}/blog/${post.slug}`}
