@@ -1,0 +1,36 @@
+# 언어를 안 가리는 공통 규칙. JetBrains·VS Code 가 기본으로 읽는다.
+# 값은 biome.json 에서 가져왔다 — 여기서 임의로 바꾸면 그 도구와 어긋난다.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+max_line_length = 120
+
+# Markdown 은 줄 끝 공백 두 개가 줄바꿈이다 — 지우면 안 된다.
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+[*.{yml,yaml,json,jsonc}]
+indent_style = space
+indent_size = 2
+
+[Makefile]
+indent_style = tab
+
+# 아직 이 저장소에 없어도 미리 둔다 — 나중에 시작할 때 그대로 적용된다.
+# rustfmt·gofmt 는 RustRover·GoLand 에 내장이라 별도 플러그인이 필요 없다.
+[*.rs]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+[*.go]
+indent_style = tab
+indent_size = 4
+max_line_length = off
