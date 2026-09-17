@@ -188,7 +188,7 @@ published: true
 
 ## 작업 사이클
 
-전역 표준을 따른다 — **이슈 → `feature/{이슈번호}-{설명}` → conventional commits → PR `Closes #N` → 리뷰 → 병합 → `/handoff`**.
+전역 표준을 따른다 — **이슈 → `feature/{이슈번호}-{설명}` → conventional commits(**제목은 명사형** — `~한다` 서술형 금지) → PR `Closes #N` → 리뷰 → 병합 → `/handoff`**.
 (정본: `~/.claude/rules/git-workflow.md`. Codex 는 전역 규칙을 못 읽으므로 이 저장소의 값을 여기 적어 둔다.)
 
 | | |
