@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.1.1](https://github.com/chahyunwoo/hyunwoo-dev/compare/v2.1.0...v2.1.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **blog:** 미리보기 응답을 캐시하지 않는다 ([03551cf](https://github.com/chahyunwoo/hyunwoo-dev/commit/03551cf5e2124a48c40fc2cf7449ee93bb108c38))
+* **blog:** 미리보기 응답을 캐시하지 않는다 ([9946b6c](https://github.com/chahyunwoo/hyunwoo-dev/commit/9946b6cb24c766ea40280c5f181529a5637e3ccb)), closes [#154](https://github.com/chahyunwoo/hyunwoo-dev/issues/154)
+* **portfolio:** PDF 이력서에서 긴 제목·기술 배지가 겹치던 문제 ([#145](https://github.com/chahyunwoo/hyunwoo-dev/issues/145)) ([#146](https://github.com/chahyunwoo/hyunwoo-dev/issues/146)) ([8b6d02a](https://github.com/chahyunwoo/hyunwoo-dev/commit/8b6d02a1ac28ce0156ae622c673c4ab641817e6d))
+* **portfolio:** PDF 항목이 페이지 경계에서 쪼개지지 않게 한다 ([#149](https://github.com/chahyunwoo/hyunwoo-dev/issues/149)) ([#150](https://github.com/chahyunwoo/hyunwoo-dev/issues/150)) ([6946e94](https://github.com/chahyunwoo/hyunwoo-dev/commit/6946e94c7aee0c3f0315f903e05ab83d7a501ed0))
+* 클라이언트 라우터 캐시를 끄고 갱신이 즉시 보이게 한다 ([#152](https://github.com/chahyunwoo/hyunwoo-dev/issues/152)) ([43ab39e](https://github.com/chahyunwoo/hyunwoo-dev/commit/43ab39ee4c36ef8012645f3d6bc67b09b48a0697))
+
 ## [2.1.0](https://github.com/chahyunwoo/hyunwoo-dev/compare/v2.0.1...v2.1.0) (2026-09-04)
 
 
