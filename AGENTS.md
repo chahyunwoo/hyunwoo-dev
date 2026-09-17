@@ -185,3 +185,20 @@ published: true
 - [ ] Callout/Highlight가 과하지 않은가?
 - [ ] 썸네일이 적용되었는가?
 - [ ] 좋은 점/고려할 점이 정리되어 있는가?
+
+## 작업 사이클
+
+전역 표준을 따른다 — **이슈 → `feature/{이슈번호}-{설명}` → conventional commits → PR `Closes #N` → 리뷰 → 병합 → `/handoff`**.
+(정본: `~/.claude/rules/git-workflow.md`. Codex 는 전역 규칙을 못 읽으므로 이 저장소의 값을 여기 적어 둔다.)
+
+| | |
+|---|---|
+| 트래커 | GitHub Issues (`chahyunwoo/hyunwoo-dev`) |
+| 분기 기준 | `dev` |
+| 승격 경로 | `feature/* → dev → main` |
+| 병합 위임 | **전부 위임** |
+| 리뷰어 | 전역 `code-reviewer` (FSD 레이어 역방향 import 를 리뷰 항목에 포함 — 린터가 못 잡는다) |
+| 검증 | `.claude/verify.sh` |
+| 푸시 = 배포? | 🔴 **예 — `main` 푸시가 곧 Vercel 배포다.** `dev` 에서 검증을 끝내고 올린다 |
+
+⚠️ 릴리스 노트는 release-please 가 만든다 — 커밋 타입이 그대로 노트가 되니 형식을 지킨다.
