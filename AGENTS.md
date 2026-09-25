@@ -47,6 +47,12 @@ biome 에는 import 경계 룰이 없다. 리뷰는 검사기가 못 보는 것�
 
 글 작성 가이드(톤·구조·MDX 컴포넌트·메타 필드)는 `.claude/skills/blog-post/SKILL.md`. 글을 쓸 때만 읽는다.
 
+## 포트
+
+블록 `22000` (mac) / `22100` (mini). 자리 규약·전체 표는 `~/.claude/reference/포트-배정.md`.
+dev: blog 22000 · admin 22002 · portfolio 22003. 로컬 API 는 api-server 블록의 21801.
+`next start`·lighthouse(`.github/lighthouse`)는 기본 3000 그대로다 — dev 만 옮겼다.
+
 ## 작업 사이클
 
 전역 표준을 따른다 — **이슈 → `feature/{이슈번호}-{설명}` → conventional commits(**제목은 명사형** — `~한다` 서술형 금지) → PR `Closes #N` → 리뷰 → 병합 → `/handoff`**.

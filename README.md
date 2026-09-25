@@ -169,9 +169,9 @@ cp .env.example .env.local
 pnpm dev
 
 # Run individual apps
-pnpm dev:blog        # localhost:3000
-pnpm dev:admin       # localhost:3100
-pnpm dev:portfolio   # localhost:3001
+pnpm dev:blog        # localhost:22000
+pnpm dev:admin       # localhost:22002
+pnpm dev:portfolio   # localhost:22003
 
 # Build
 pnpm build
