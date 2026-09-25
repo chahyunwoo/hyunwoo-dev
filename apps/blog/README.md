@@ -167,7 +167,7 @@ pnpm dev
 ### 🔑 Environment Variables
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
+NEXT_PUBLIC_API_URL=http://localhost:21801
 NEXT_PUBLIC_API_KEY=your-api-key
 REVALIDATE_SECRET=your-revalidate-secret
 ```

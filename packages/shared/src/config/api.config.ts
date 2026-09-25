@@ -16,7 +16,7 @@
  */
 const env = (value: string | undefined, fallback = ''): string => (value ?? fallback).trim()
 
-export const API_URL = env(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:4000')
+export const API_URL = env(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:21801')
 export const API_KEY = env(process.env.NEXT_PUBLIC_API_KEY)
 
 export const DEFAULT_REVALIDATE = false
