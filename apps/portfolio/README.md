@@ -138,7 +138,7 @@ src/
 # From monorepo root
 pnpm dev:portfolio
 
-# From this directory (port 3001)
+# From this directory (port 22003)
 pnpm dev
 ```
 

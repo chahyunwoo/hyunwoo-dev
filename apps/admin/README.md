@@ -110,7 +110,7 @@ src/
 # From monorepo root
 pnpm dev:admin
 
-# From this directory (port 3100)
+# From this directory (port 22002)
 pnpm dev
 ```
 
