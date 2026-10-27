@@ -1,6 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
-import { REFERRER_CATEGORY_COLORS, REFERRER_CATEGORY_LABELS } from '../config/referrer-colors'
-import type { ReferrerCategory, ReferrerSummary } from '../model'
+import { REFERRER_CATEGORY_COLORS, REFERRER_CATEGORY_LABELS } from '@/entities/analytics/config/referrer-colors'
+import type { ReferrerCategory, ReferrerSummary } from '@/entities/analytics/model'
 
 interface ReferrerPieChartProps {
   summary: ReferrerSummary

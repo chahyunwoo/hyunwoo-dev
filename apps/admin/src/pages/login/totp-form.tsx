@@ -113,6 +113,7 @@ export function TotpForm({ twoFactorToken, onBack }: TotpFormProps) {
         <CardContent className="flex flex-col gap-6">
           <div className="flex justify-center gap-2" onPaste={handlePaste}>
             {digits.map((digit, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: 6칸 고정 길이라 추가·삭제·재정렬이 없다. ref 배열도 같은 인덱스를 쓴다
               <input
                 key={i}
                 ref={el => {

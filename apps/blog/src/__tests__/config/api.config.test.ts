@@ -65,7 +65,7 @@ describe('api.config 환경변수 정규화', () => {
   it('미설정 시 기본값을 쓴다', async () => {
     const { API_URL, API_KEY } = await loadConfig(undefined, undefined)
 
-    expect(API_URL).toBe('http://localhost:4000')
+    expect(API_URL).toBe('http://localhost:21801')
     expect(API_KEY).toBe('')
   })
 })

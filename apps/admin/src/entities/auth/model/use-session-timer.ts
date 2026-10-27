@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { extendSession, logout } from '../api/auth.api'
+import { extendSession, logout } from '@/entities/auth/api/auth.api'
 import { getRemainingSession } from './auth.store'
 
 const WARNING_THRESHOLD = 5 * 60 * 1000

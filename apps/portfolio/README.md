@@ -138,14 +138,14 @@ src/
 # From monorepo root
 pnpm dev:portfolio
 
-# From this directory (port 3001)
+# From this directory (port 22003)
 pnpm dev
 ```
 
 ### Environment Variables
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
+NEXT_PUBLIC_API_URL=http://localhost:21801
 NEXT_PUBLIC_API_KEY=your-api-key
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=your-code
 ```

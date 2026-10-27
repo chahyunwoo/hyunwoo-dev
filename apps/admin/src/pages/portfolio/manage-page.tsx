@@ -42,7 +42,7 @@ import {
   useUploadProfileIcon,
   useUploadProfileImage,
 } from '@/entities/portfolio'
-import { TwoFactorSetup } from '@/pages/settings/two-factor-setup'
+import { TwoFactorSetup } from '@/features/two-factor'
 import { adminApi } from '@/shared/api'
 import type { LocaleCode } from '@/shared/config'
 import { LOCALE_TABS } from '@/shared/config'

@@ -2,10 +2,10 @@ import type { ApiOkJson } from '@hyunwoo/shared/api'
 import { ENDPOINTS } from '@hyunwoo/shared/api'
 import { toast } from '@hyunwoo/ui'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import type { CreatePostBody, PostListParams, UpdatePostBody } from '@/entities/post/model'
 import { adminApi } from '@/shared/api'
 import { queryKeys } from '@/shared/config'
 import { getErrorMessage, stripLeadingSlash } from '@/shared/lib'
-import type { CreatePostBody, PostListParams, UpdatePostBody } from '../model'
 import { postDetailOptions, postListOptions } from './post.options'
 
 /**

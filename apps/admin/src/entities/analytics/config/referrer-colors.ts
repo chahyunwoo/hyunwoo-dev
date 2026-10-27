@@ -1,4 +1,4 @@
-import type { ReferrerCategory } from '../model'
+import type { ReferrerCategory } from '@/entities/analytics/model'
 
 export const REFERRER_CATEGORY_COLORS: Record<ReferrerCategory, string> = {
   direct: '#6b7280',

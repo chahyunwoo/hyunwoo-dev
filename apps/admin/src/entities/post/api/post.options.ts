@@ -1,10 +1,10 @@
 import type { ApiOkJson } from '@hyunwoo/shared/api'
 import { ENDPOINTS } from '@hyunwoo/shared/api'
 import { queryOptions } from '@tanstack/react-query'
+import type { PostListParams } from '@/entities/post/model'
 import { adminApi } from '@/shared/api'
 import { queryKeys } from '@/shared/config'
 import { stripLeadingSlash } from '@/shared/lib'
-import type { PostListParams } from '../model'
 
 /**
  * 응답 타입을 손으로 선언하지 않고 api-server의 OpenAPI 스펙에서 생성한 타입을 쓴다.

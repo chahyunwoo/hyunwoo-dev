@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3100",
+    "dev": "vite --port 22002",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "biome check --write .",

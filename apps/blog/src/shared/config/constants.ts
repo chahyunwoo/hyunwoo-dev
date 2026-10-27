@@ -3,6 +3,7 @@ import { Github, Instagram, Laptop, Linkedin, type LucideIcon, Moon, Sun } from 
 
 export const MENU_ITEMS: MenuItem[] = [
   { name: 'Blog', href: '/' },
+  { name: 'Archive', href: '/blog' },
   { name: 'About', href: '/about/ko' },
 ]
 
