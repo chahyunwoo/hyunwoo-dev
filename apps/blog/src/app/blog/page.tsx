@@ -27,7 +27,11 @@ export default async function Page() {
   const posts = await getPublishedPosts()
 
   if (posts.length === 0) {
-    return <ApiError message="포스트를 불러올 수 없습니다." />
+    return (
+      <InnerContainer className="py-8 md:py-12">
+        <ApiError message="포스트를 불러올 수 없습니다." />
+      </InnerContainer>
+    )
   }
 
   const sorted = [...posts].sort((a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime())
