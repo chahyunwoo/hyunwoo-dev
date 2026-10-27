@@ -92,7 +92,7 @@ export default async function Page({ params }: Params<{ slug: string }>) {
       description: post.meta.description,
       image: post.meta.thumbnail,
       datePublished: post.meta.date,
-      dateModified: post.meta.date,
+      dateModified: post.meta.updatedAt || post.meta.date,
       author: {
         '@type': 'Person',
         name: 'Hyunwoo Cha',

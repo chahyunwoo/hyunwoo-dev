@@ -7,7 +7,7 @@ import { PostSkeleton } from '@/shared/ui'
 import { BlogLayout } from '@/widgets/sidebar'
 
 export async function generateMetadata({ searchParams }: { searchParams: BlogParams }): Promise<Metadata> {
-  const { category, tag, parentCategory } = await searchParams
+  const { category, tag, parentCategory, page } = await searchParams
 
   let title = 'hyunwoo.dev'
   let description = '최신 기술 관련 글과 경험을 공유합니다.'
@@ -23,11 +23,18 @@ export async function generateMetadata({ searchParams }: { searchParams: BlogPar
     keywords = `${parentCategory}, ${tag}, 개발, 프로그래밍, 기술, 블로그, 웹개발`
   }
 
-  const canonicalUrl = category
-    ? `${BASE_URL}/?category=${encodeURIComponent(category)}`
-    : tag && parentCategory
-      ? `${BASE_URL}/?category=${encodeURIComponent(parentCategory)}&tag=${encodeURIComponent(tag)}`
-      : BASE_URL
+  // 2페이지 이후 canonical 을 1페이지로 접으면 그 페이지에만 링크된 글이 크롤 경로를 잃는다.
+  const canonicalParams = new URLSearchParams()
+  if (category) {
+    canonicalParams.set('category', category)
+  } else if (tag && parentCategory) {
+    canonicalParams.set('category', parentCategory)
+    canonicalParams.set('tag', tag)
+  }
+  const pageNumber = Number(page)
+  if (Number.isInteger(pageNumber) && pageNumber > 1) canonicalParams.set('page', String(pageNumber))
+  const canonicalQuery = canonicalParams.toString()
+  const canonicalUrl = canonicalQuery ? `${BASE_URL}/?${canonicalQuery}` : BASE_URL
 
   return {
     title,
