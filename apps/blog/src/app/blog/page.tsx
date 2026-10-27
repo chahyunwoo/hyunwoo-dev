@@ -6,6 +6,9 @@ import Link from 'next/link'
 import { getPublishedPosts } from '@/entities/post'
 import { ApiError, InnerContainer } from '@/shared/ui'
 
+// API 장애 중 재생성되면 에러 화면이 다음 웹훅까지 굳으므로 주기 재생성으로 상한을 둔다.
+export const revalidate = 600
+
 export const metadata: Metadata = {
   title: '전체 글',
   description: 'hyunwoo.dev 에 발행된 모든 글을 연도별로 모았습니다.',
