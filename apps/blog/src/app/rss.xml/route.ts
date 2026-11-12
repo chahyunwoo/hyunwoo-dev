@@ -11,6 +11,10 @@ export async function GET() {
   }
 
   return new Response(buildRssFeed(posts, BASE_URL), {
-    headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/rss+xml; charset=utf-8',
+      // next.config 의 전역 s-maxage=86400 규칙을 덮는다. 라우트가 직접 준 값이 우선한다(sitemap 실측).
+      'Cache-Control': 'public, max-age=0, must-revalidate',
+    },
   })
 }

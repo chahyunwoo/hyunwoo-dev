@@ -30,6 +30,12 @@ describe('buildRssFeed', () => {
     expect(xml).toContain(`<lastBuildDate>${new Date('2026-11-01').toUTCString()}</lastBuildDate>`)
   })
 
+  it('should reflect an edit of an older post in lastBuildDate', () => {
+    const xml = buildRssFeed([post('old', '2026-01-01', { updatedAt: '2026-11-10' }), post('new', '2026-11-01')], BASE)
+    expect(xml).toContain(`<lastBuildDate>${new Date('2026-11-10').toUTCString()}</lastBuildDate>`)
+    expect(xml).toContain(`<pubDate>${new Date('2026-01-01').toUTCString()}</pubDate>`)
+  })
+
   it('should escape XML special characters in title and description', () => {
     const xml = buildRssFeed([post('a', '2026-01-01', { title: `A & B <C> 'q'`, description: '"x"' })], BASE)
     expect(xml).toContain('<title>A &amp; B &lt;C&gt; &apos;q&apos;</title>')

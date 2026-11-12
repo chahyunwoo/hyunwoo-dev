@@ -32,9 +32,10 @@ export function buildRssFeed(posts: Post[], baseUrl: string) {
     })
     .join('\n')
 
-  // lastBuildDate 는 요청 시각이 아니라 최신 글 기준이어야 수집기가 변경 없음을 판단할 수 있다.
-  const lastBuildDate = items[0]
-    ? `\n    <lastBuildDate>${new Date(items[0].meta.date).toUTCString()}</lastBuildDate>`
+  // lastBuildDate 는 요청 시각이 아니라 글의 최신 발행·수정 시각이어야 수집기가 변경 여부를 판단할 수 있다.
+  const lastModified = Math.max(...items.map(({ meta }) => new Date(meta.updatedAt || meta.date).getTime()))
+  const lastBuildDate = items.length
+    ? `\n    <lastBuildDate>${new Date(lastModified).toUTCString()}</lastBuildDate>`
     : ''
 
   return `<?xml version="1.0" encoding="UTF-8"?>
