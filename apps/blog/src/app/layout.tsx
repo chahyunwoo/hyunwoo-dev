@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import NextTopLoader from 'nextjs-toploader'
+import { RSS_ALTERNATE_TYPES } from '@/shared/config'
 import '@/styles/globals.css'
 import { BASE_URL } from '@hyunwoo/shared/config'
 import { ThemeProvider } from '@/providers/theme-provider'
@@ -86,6 +87,7 @@ export const metadata: Metadata = {
       'ko-KR': BASE_URL,
       'x-default': BASE_URL,
     },
+    types: RSS_ALTERNATE_TYPES,
   },
 }
 

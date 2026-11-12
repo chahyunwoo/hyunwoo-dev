@@ -4,6 +4,7 @@ import type { Post } from '@hyunwoo/shared/types'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPublishedPosts } from '@/entities/post'
+import { RSS_ALTERNATE_TYPES } from '@/shared/config'
 import { ApiError, InnerContainer } from '@/shared/ui'
 
 // API 장애 중 재생성되면 에러 화면이 다음 웹훅까지 굳으므로 주기 재생성으로 상한을 둔다.
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   description: 'hyunwoo.dev 에 발행된 모든 글을 연도별로 모았습니다.',
   alternates: {
     canonical: `${BASE_URL}/blog`,
+    types: RSS_ALTERNATE_TYPES,
   },
 }
 

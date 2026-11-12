@@ -3,6 +3,7 @@ import type { BlogParams } from '@hyunwoo/shared/types'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { PostListContainer } from '@/entities/post'
+import { RSS_ALTERNATE_TYPES } from '@/shared/config'
 import { PostSkeleton } from '@/shared/ui'
 import { BlogLayout } from '@/widgets/sidebar'
 
@@ -42,6 +43,7 @@ export async function generateMetadata({ searchParams }: { searchParams: BlogPar
     keywords,
     alternates: {
       canonical: canonicalUrl,
+      types: RSS_ALTERNATE_TYPES,
     },
     openGraph: {
       title,
