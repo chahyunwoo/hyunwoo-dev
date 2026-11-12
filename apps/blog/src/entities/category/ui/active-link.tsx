@@ -34,7 +34,7 @@ export function ActiveLink({
     isActiveProp !== undefined
       ? isActiveProp
       : pathname === href ||
-        (href === '/' && pathname.startsWith('/blog/')) ||
+        (href === '/' && (pathname === '/blog' || pathname.startsWith('/blog/'))) ||
         (href !== '/' && pathname.startsWith(href))
 
   return (
