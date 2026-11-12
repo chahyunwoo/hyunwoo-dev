@@ -1,5 +1,5 @@
 import { formatDate } from '@hyunwoo/shared/lib'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { BlogCategoryNavigator, SidebarTagCloud } from '@/entities/category'
 import { getCategoriesWithTags, getRecentPosts, getTagCloud } from '@/entities/post'
@@ -89,6 +89,15 @@ export async function BlogSidebar() {
           </>
         )
       )}
+
+      <hr className="border-border mx-3" />
+      <Link
+        href="/blog"
+        className="inline-flex items-center gap-1 px-3 text-[11px] text-muted-foreground/60 hover:text-primary transition-colors"
+      >
+        전체 글 보기
+        <ArrowRight className="h-3 w-3" />
+      </Link>
     </aside>
   )
 }
