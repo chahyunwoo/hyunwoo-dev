@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.2.0](https://github.com/chahyunwoo/hyunwoo-dev/compare/v2.1.0...v2.2.0) (2026-11-12)
+
+
+### Features
+
+* **blog:** RSS 피드 및 자동 탐지 링크 추가 ([f8773cf](https://github.com/chahyunwoo/hyunwoo-dev/commit/f8773cf4bb1b560b87caf55a4baa8a774e8cb438))
+* **blog:** RSS 피드 및 자동 탐지 링크 추가 ([9fb43f0](https://github.com/chahyunwoo/hyunwoo-dev/commit/9fb43f05017cb12a3ee655d5e30f5f9efc71850b))
+* **blog:** 네이버 사이트 인증 메타 및 IndexNow 키 파일 추가 ([#176](https://github.com/chahyunwoo/hyunwoo-dev/issues/176)) ([2170b12](https://github.com/chahyunwoo/hyunwoo-dev/commit/2170b12743f5d6801af689c08010650582dd86a7))
+* **blog:** 네이버 사이트 인증 메타·IndexNow 키 추가 및 소프트 404 수정 ([f05f089](https://github.com/chahyunwoo/hyunwoo-dev/commit/f05f089558e50c5b4fe1b55f0e3323e36084091b))
+
+
+### Bug Fixes
+
+* **blog:** RSS 캐시 헤더 고정 및 lastBuildDate 수정 시각 반영 ([620d963](https://github.com/chahyunwoo/hyunwoo-dev/commit/620d9630250764b710c5f3717edc2ee1679e27f8))
+* **blog:** 글 상세 loading.tsx 삭제로 없는 slug 404 응답 복구 ([#178](https://github.com/chahyunwoo/hyunwoo-dev/issues/178)) ([84be0ec](https://github.com/chahyunwoo/hyunwoo-dev/commit/84be0ecf1c8dc8b91a1aad37dc224a8962c15e4b))
+* **blog:** 목록 canonical 수정 및 전체 글 아카이브 추가 ([#168](https://github.com/chahyunwoo/hyunwoo-dev/issues/168)) ([efb8273](https://github.com/chahyunwoo/hyunwoo-dev/commit/efb8273c40de29de16a3559ee262dbdeb2f3ba45))
+* **blog:** 미리보기 응답을 캐시하지 않는다 ([03551cf](https://github.com/chahyunwoo/hyunwoo-dev/commit/03551cf5e2124a48c40fc2cf7449ee93bb108c38))
+* **blog:** 미리보기 응답을 캐시하지 않는다 ([9946b6c](https://github.com/chahyunwoo/hyunwoo-dev/commit/9946b6cb24c766ea40280c5f181529a5637e3ccb)), closes [#154](https://github.com/chahyunwoo/hyunwoo-dev/issues/154)
+* **blog:** 미리보기 응답을 캐시하지 않는다 ([#154](https://github.com/chahyunwoo/hyunwoo-dev/issues/154)) ([b8b6bd1](https://github.com/chahyunwoo/hyunwoo-dev/commit/b8b6bd16df6510b8e0f3e3e7948930699c6903e5))
+* **blog:** 아카이브 에러 화면 고착 방지용 주기 재생성 추가 ([#171](https://github.com/chahyunwoo/hyunwoo-dev/issues/171)) ([ba2ef58](https://github.com/chahyunwoo/hyunwoo-dev/commit/ba2ef5874150d2ee5200cad9140791f4a1e7bee1)), closes [#170](https://github.com/chahyunwoo/hyunwoo-dev/issues/170)
+* **blog:** 전체 글 링크를 사이드바 하단·모바일 푸터로 이동 ([05ce0ca](https://github.com/chahyunwoo/hyunwoo-dev/commit/05ce0ca1ecbda915c89fa9d049529f41eaa7033f))
+* **blog:** 전체 글 링크를 사이드바 하단·모바일 푸터로 이동 ([0ac5728](https://github.com/chahyunwoo/hyunwoo-dev/commit/0ac5728ea38d85c4ecc809005cef4e005cf45937))
+* **blog:** 전체 글 링크를 푸터에서 홈 목록 하단으로 이동 ([c02cc75](https://github.com/chahyunwoo/hyunwoo-dev/commit/c02cc7552cd1dfcdd46a03bc6ee5efea6e99ea1e))
+* **blog:** 헤더 Archive 메뉴 삭제 및 전체 글 링크 푸터 이관 ([b7d7428](https://github.com/chahyunwoo/hyunwoo-dev/commit/b7d7428813656a2f95fadbfff28e9c7a18477228))
+* **blog:** 헤더 Archive 메뉴 삭제 및 전체 글 링크 푸터 이관 ([eaabf87](https://github.com/chahyunwoo/hyunwoo-dev/commit/eaabf871188da3f169bb274ba553fa7664b12666))
+* FSD 위반 16건을 고치고 기계 검사를 붙인다 ([#160](https://github.com/chahyunwoo/hyunwoo-dev/issues/160)) ([fbdf946](https://github.com/chahyunwoo/hyunwoo-dev/commit/fbdf946b5b5bc8f1002e503977d1ed71fbf0f869))
+* **portfolio:** PDF 이력서에서 긴 제목·기술 배지가 겹치던 문제 ([#145](https://github.com/chahyunwoo/hyunwoo-dev/issues/145)) ([#146](https://github.com/chahyunwoo/hyunwoo-dev/issues/146)) ([8b6d02a](https://github.com/chahyunwoo/hyunwoo-dev/commit/8b6d02a1ac28ce0156ae622c673c4ab641817e6d))
+* **portfolio:** PDF 항목이 페이지 경계에서 쪼개지지 않게 한다 ([#149](https://github.com/chahyunwoo/hyunwoo-dev/issues/149)) ([#150](https://github.com/chahyunwoo/hyunwoo-dev/issues/150)) ([6946e94](https://github.com/chahyunwoo/hyunwoo-dev/commit/6946e94c7aee0c3f0315f903e05ab83d7a501ed0))
+* 클라이언트 라우터 캐시를 끄고 갱신이 즉시 보이게 한다 ([#152](https://github.com/chahyunwoo/hyunwoo-dev/issues/152)) ([43ab39e](https://github.com/chahyunwoo/hyunwoo-dev/commit/43ab39ee4c36ef8012645f3d6bc67b09b48a0697))
+
 ## [2.1.0](https://github.com/chahyunwoo/hyunwoo-dev/compare/v2.0.1...v2.1.0) (2026-09-04)
 
 
