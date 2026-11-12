@@ -1,7 +1,7 @@
 'use client'
 
 import type { Post } from '@hyunwoo/shared/types'
-import { ArrowRight, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { Button } from '@/shared/ui'
@@ -114,16 +114,6 @@ export function PostList({ posts, page, totalPages }: PostListProps) {
           </Link>
         </div>
       )}
-
-      <div className="flex justify-center">
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          전체 글 보기
-          <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
-      </div>
     </div>
   )
 }
