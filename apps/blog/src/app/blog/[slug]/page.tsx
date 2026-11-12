@@ -14,6 +14,7 @@ import {
   PostTOC,
   ReadingProgress,
 } from '@/entities/post'
+import { RSS_ALTERNATE_TYPES } from '@/shared/config'
 import { InnerContainer } from '@/shared/ui'
 
 export async function generateStaticParams() {
@@ -72,6 +73,7 @@ export async function generateMetadata({ params }: Params<{ slug: string }>): Pr
         'ko-KR': url,
         'x-default': url,
       },
+      types: RSS_ALTERNATE_TYPES,
     },
   }
 }

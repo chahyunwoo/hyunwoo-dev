@@ -8,6 +8,7 @@ export {
   getRelatedPosts,
   getTagCloud,
 } from './api/post.api'
+export { buildRssFeed } from './lib/rss'
 export type {
   ApiCategory,
   ApiPost,

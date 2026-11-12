@@ -12,6 +12,7 @@ import {
   Skills,
 } from '@/entities/about'
 import { LanguageSwitch } from '@/features/navigation'
+import { RSS_ALTERNATE_TYPES } from '@/shared/config'
 import { InnerContainer } from '@/shared/ui'
 
 export async function generateStaticParams() {
@@ -39,6 +40,7 @@ export async function generateMetadata({ params }: Params<{ locale: Locale }>) {
         en: `${BASE_URL}/about/en`,
         ja: `${BASE_URL}/about/jp`,
       },
+      types: RSS_ALTERNATE_TYPES,
     },
     openGraph: {
       title: `${profile.name} | ${profile.job}`,
